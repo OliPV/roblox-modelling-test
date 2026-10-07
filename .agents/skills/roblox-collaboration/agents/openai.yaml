@@ -1,0 +1,6 @@
+interface:
+  display_name: "Roblox collaboration"
+  short_description: "Concise collaboration with optional learning support"
+  default_prompt: "Use $roblox-collaboration to brainstorm and review our next Roblox update."
+policy:
+  allow_implicit_invocation: true

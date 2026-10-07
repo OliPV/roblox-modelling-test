@@ -1,40 +1,24 @@
 # Agentic Roblox Development
 
 ## Context
-- Read `project.settings.json`, `context/INDEX.md` and `context/NOW.md`, then only relevant topics.
-- Game knowledge lives in `context/`; do not read or write personal/global memory.
+- Read `context/INDEX.md` and `context/NOW.md`, then only relevant topics.
+- `context/` holds game knowledge, recorded decisions and observations, never instruction manuals.
+- Do not read or write personal/global memory; reusable instructions belong in skills.
 - Verify context against files and actual Studio state when needed.
 - Update affected topics and NOW after meaningful work; update INDEX when topics change.
 - Keep NOW short: durable decisions, current state and unresolved checks, not transcripts.
 - Add system/world topics only when real content justifies them.
 
 ## Collaboration
-- Default to adult collaboration: concise, direct, respectful language and one useful question at a time.
-- Match the developer's technical depth. Explain only what helps a decision or understanding.
-- Brainstorm together with short open questions; offer examples when useful.
-- Own implementation, routine technical decisions, coordination and debugging.
-- Read `context/WORKING_STYLE.md` for explicit preferences; store only stable observations.
-- Never infer a sensitive profile, age or language ability from spelling or one message.
-- Learning mode is optional and OFF by default. Read `project.settings.json` each session.
-- When enabled, read `docs/LEARNING_MODE.md`; adapt language and invite typed creative answers.
-- When disabled, stop learning-specific guidance immediately; retain concise collaboration.
-- A request to enable/disable learning mode authorizes updating that setting without feature approval.
+- Always use [roblox-collaboration](.agents/skills/roblox-collaboration/SKILL.md).
 
-## Brainstorm, bundle, approve
-- Before substantial new builds, resolve high-impact creative uncertainties one at a time.
-- For a new concept, understand fantasy, player actions/loop, goal, mood/hook, multiplayer needs
-  and the first meaningful playable milestone without requiring design terminology.
-- Bundle feature ideas into one coherent update. Ask "Anything else?" before final review.
-- When ready, summarize the whole bundle in short bullets and ask for a yes or no.
-- Implement after an explicit yes to that summary. A no means revise, then show the revised bundle.
-- Approval covers routine technical choices, coherent polish, debugging and verification.
-- Do not repeat permission requests for approved work. Put new scope into the next bundle
-  or confirm a revised summary. Honor explicit instructions to proceed or skip a review.
-- Requested bug fixes and routine maintenance can proceed directly within their authorized scope.
-- Preserve the core idea; infer professional animation, sound, VFX, lighting, feedback and UX.
-- Add fitting delightful details; avoid speculative systems or changing the developer's concept.
-- Aim for idea -> impressive result -> new ideas, with a coherent first playable milestone.
-- Treat professional engineering and visual quality as goals, including eventual public release.
+## Impress
+- Treat the request as the minimum creative requirement; preserve the developer's core idea.
+- Infer professional animation, sound, VFX, feedback, lighting, UI and delightful details
+  where they strengthen the idea. Do not require the developer to specify these details.
+- A technically correct but dull result is insufficient. Aim for idea -> impressive result -> new ideas.
+- Keep the first milestone coherent and playable; avoid speculative systems or replacing the idea.
+- Aim for professional engineering and visual quality, including eventual public release.
 
 ## Skills and ownership
 - Read `.agents/skills/roblox/SKILL.md` as router; load only relevant specialists/references.
@@ -48,8 +32,8 @@
   and an approved migration; inspect conflicts and back up relevant content first.
 - Keep unknown-instance preservation enabled. Bind Rojo only to `127.0.0.1`.
 - Use `scripts/dev.ps1` for pinned project tools/checks; see `docs/SETUP.md`.
-- Prefer Blender for substantial custom models, rigs and animation; read `context/world/BLENDER.md`.
-- Support AI-first, shared or developer-led modelling; follow the stated preference.
+- Prefer Blender for substantial custom models, rigs and animation; read
+  [roblox-blender](.agents/skills/roblox-blender/SKILL.md).
 - Use official built-in Studio MCP when connected; inspect actual available capabilities.
 - Discover the intended Studio instance; target its ID on every call when supported.
 - Verify sync preservation, runtime and visual QA before claiming connection setup complete.
@@ -88,7 +72,7 @@
 - If Studio is unavailable, label pending runtime work UNVERIFIED; record checks, never invent evidence.
 - Bug reports are evidence: reproduce, inspect, fix the cause, re-test the exact scenario and
   nearby regressions. Ask only the short clarification needed to reproduce.
-- Update context, give a short outcome, and invite the developer to try verified work.
+- Update context after verified work; use the collaboration skill for developer-facing outcomes.
 - Before release, review gameplay/onboarding, bugs, multiplayer, saving, exploits, performance,
   devices/input, presentation/audio, purchases, policies and metadata/assets.
 - Keep frequent instructions short/exact. Aim below 150 lines; 250 is guidance, not a hard limit.

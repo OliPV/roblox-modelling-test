@@ -12,3 +12,7 @@ No examples run automatically. Verify current official APIs and adapt/test examp
 `scripts/update-skills.ps1` checks recorded hashes before updating, refuses to overwrite
 local edits, backs up changed skills and regenerates the thin Claude discovery adapters.
 The adapters and template workflow are maintained by this repository.
+
+Project-owned collaboration and Blender skills are separate from the 16 vendored skills.
+[project-skill-files.json](project-skill-files.json) identifies these maintained files; the
+upstream updater replaces only the named vendored directories and preserves project skills.

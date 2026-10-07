@@ -3,7 +3,7 @@
 param()
 $ErrorActionPreference = 'Stop'
 $projectRoot = Split-Path $PSScriptRoot -Parent
-$settings = Get-Content -LiteralPath (Join-Path $projectRoot 'project.settings.json') -Raw | ConvertFrom-Json
+$settings = Get-Content -LiteralPath (Join-Path $projectRoot '.agents/skills/roblox-collaboration/settings.json') -Raw | ConvertFrom-Json
 if ($settings.learningMode -isnot [bool]) { throw 'learningMode must be a JSON boolean.' }
 $rojo = Get-Content -LiteralPath (Join-Path $projectRoot 'default.project.json') -Raw | ConvertFrom-Json
 if ($rojo.serveAddress -ne '127.0.0.1' -or !$rojo.tree.'$ignoreUnknownInstances') {
@@ -30,9 +30,13 @@ if ((Get-Content -LiteralPath (Join-Path $projectRoot 'CLAUDE.md') -Raw) -notmat
 $skillsRoot = Join-Path $projectRoot '.agents/skills'
 $lock = Get-Content -LiteralPath (Join-Path $projectRoot 'docs/roblox-suite.lock.json') -Raw | ConvertFrom-Json -AsHashtable
 $files = @(Get-ChildItem -LiteralPath $skillsRoot -Recurse -File)
-if ($files.Count -ne $lock.files.Count) { throw 'Skill inventory does not match upstream lock.' }
+$owned = Get-Content -LiteralPath (Join-Path $projectRoot 'docs/project-skill-files.json') -Raw | ConvertFrom-Json
+$actual = @($files | ForEach-Object { [IO.Path]::GetRelativePath($skillsRoot, $_.FullName).Replace('\', '/') })
+$expected = @($lock.files.Keys) + @($owned.files)
+if (@(Compare-Object $expected $actual).Count) { throw 'Skill inventory differs from vendored lock + project ownership record.' }
 foreach ($file in $files) {
     $relative = [IO.Path]::GetRelativePath($skillsRoot, $file.FullName).Replace('\', '/')
+    if ($relative -in $owned.files) { continue }
     if ((Get-FileHash -LiteralPath $file.FullName -Algorithm SHA256).Hash.ToLowerInvariant() -ne $lock.files[$relative]) {
         throw "Vendored skill changed: $relative. Review and update its provenance deliberately."
     }
@@ -66,4 +70,4 @@ foreach ($file in $portableFiles) {
         throw "Machine/private game data in template: $($file.Name)"
     }
 }
-Write-Output "Template validated: $($files.Count) vendored files; shared rules, adapters, settings, links and narrow Rojo map."
+Write-Output "Template validated: $($lock.files.Count) vendored files and $($owned.files.Count) project skill files; shared rules, adapters, settings, links and narrow Rojo map."

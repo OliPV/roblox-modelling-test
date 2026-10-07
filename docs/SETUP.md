@@ -65,6 +65,9 @@ Project `.claude/settings.json` disables automatic memory. No model is forced ac
 Use `/roblox` or another specialist such as `/roblox-npcs` for explicit skill invocation;
 normal automatic selection also works through skill descriptions.
 Edit canonical `.agents/skills` files; regenerate adapters with `scripts/sync-claude-skills.ps1`.
+Both clients always use the [collaboration skill](../.agents/skills/roblox-collaboration/SKILL.md);
+its [settings](../.agents/skills/roblox-collaboration/settings.json) select the mode.
+`context/` contains recorded game facts and observations; it is not an instruction location.
 
 ## Optional official Studio MCP
 

@@ -17,21 +17,21 @@ The assistant owns technical work and debugging; the developer owns the creative
 
 Codex reads [AGENTS.md](AGENTS.md) and discovers `.agents/skills`.
 Claude Code reads [CLAUDE.md](CLAUDE.md), which imports the same rules, and discovers
-`.claude/skills` adapters pointing at the canonical skills. No symlinks or duplicated manuals.
+`.claude/skills` adapters pointing at the canonical skills. References work on Windows and macOS without symlinks, administrator rights or duplicated manuals.
 Ordinary ChatGPT needs a coding/work environment with filesystem/tool access; a browser chat
 alone does not load repository instructions or control Studio.
 
 ## Adult by default; learning when wanted
 
 Adult collaboration is concise and direct. Both modes keep brainstorming and bundle approval.
-Learning support is OFF in [project.settings.json](project.settings.json).
+Learning support is OFF in the [collaboration skill settings](.agents/skills/roblox-collaboration/settings.json).
 Say "Enable learning mode" or "Disable learning mode", or change `learningMode` yourself.
 The optional mode supports reading/writing through creating games, without formal lessons.
-See [LEARNING_MODE.md](docs/LEARNING_MODE.md).
+All response and approval rules live in [roblox-collaboration](.agents/skills/roblox-collaboration/SKILL.md).
 
 ## Included
 
-- Shared instructions, optional learning setting and fresh `context/` starter files.
+- Root expectations, dedicated collaboration/Blender skills and fresh `context/` memory files.
 - 16 Roblox specialist skills covering core, networking, NPCs, physics, UI, animation,
   VFX, audio, persistence, purchases, teleporting, Open Cloud, Rojo, MCP and testing.
 - Empty server/client/shared code folders and a narrow Rojo map preserving Studio content.

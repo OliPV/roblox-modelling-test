@@ -1,0 +1,28 @@
+# Machine-local tools, work, diagnostics and exports
+.tools/
+work/
+outputs/
+# Studio places and Blender sources: opt in explicitly in each actual game repository
+*.rbxl
+*.rbxlx
+*.rbxl.lock
+*.rbxlx.lock
+*.rbxm
+*.rbxmx
+*.blend
+*.blend[0-9]*
+# Credentials and machine-specific configuration
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+.codex/config.local.toml
+.claude/settings.local.json
+.mcp.json
+# Editor and operating system files
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+__pycache__/

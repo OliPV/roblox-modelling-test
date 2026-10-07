@@ -1,0 +1,6 @@
+# Keep game context in the repository; model choice stays with the developer.
+# Project configuration is applied only when this folder is trusted by Codex.
+[memories]
+use_memories = false
+generate_memories = false
+# Configure Studio MCP locally using docs/SETUP.md; never commit your launcher path.

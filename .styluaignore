@@ -1,0 +1,5 @@
+.agents/
+.claude/
+.tools/
+work/
+outputs/

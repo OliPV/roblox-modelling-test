@@ -3,7 +3,7 @@
 param()
 $ErrorActionPreference = 'Stop'
 $projectRoot = Split-Path $PSScriptRoot -Parent
-$settings = Get-Content -LiteralPath (Join-Path $projectRoot '.agents/skills/roblox-collaboration/settings.json') -Raw | ConvertFrom-Json
+$settings = Get-Content -LiteralPath (Join-Path $projectRoot '.agents/skills/roblox-collaboration/references/settings.json') -Raw | ConvertFrom-Json
 if ($settings.learningMode -isnot [bool]) { throw 'learningMode must be a JSON boolean.' }
 $rojo = Get-Content -LiteralPath (Join-Path $projectRoot 'default.project.json') -Raw | ConvertFrom-Json
 if ($rojo.serveAddress -ne '127.0.0.1' -or !$rojo.tree.'$ignoreUnknownInstances') {

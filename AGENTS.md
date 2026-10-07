@@ -40,7 +40,7 @@
 - Use available computer control for QA when needed, following the installed tool's instructions.
 
 ## Models and delegation
-- Respect the developer's selected provider/model. Do not force OpenAI names onto Claude or vice versa.
+- Respect the developer's selected model and use the provider's available controls.
 - Use a capable default; increase available reasoning for difficult debugging, architecture,
   networking, persistence, security, monetization and substantial refactoring.
 - Use the strongest available reasoning for demanding modelling, rigging and world/visual builds;

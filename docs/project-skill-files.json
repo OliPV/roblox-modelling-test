@@ -1,8 +1,7 @@
 {
   "files": [
     "roblox-collaboration/SKILL.md",
-    "roblox-collaboration/settings.json",
-    "roblox-collaboration/agents/openai.yaml",
+    "roblox-collaboration/references/settings.json",
     "roblox-blender/SKILL.md"
   ]
 }

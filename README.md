@@ -24,7 +24,7 @@ alone does not load repository instructions or control Studio.
 ## Adult by default; learning when wanted
 
 Adult collaboration is concise and direct. Both modes keep brainstorming and bundle approval.
-Learning support is OFF in the [collaboration skill settings](.agents/skills/roblox-collaboration/settings.json).
+Learning support is OFF in the [collaboration skill settings](.agents/skills/roblox-collaboration/references/settings.json).
 Say "Enable learning mode" or "Disable learning mode", or change `learningMode` yourself.
 The optional mode supports reading/writing through creating games, without formal lessons.
 All response and approval rules live in [roblox-collaboration](.agents/skills/roblox-collaboration/SKILL.md).

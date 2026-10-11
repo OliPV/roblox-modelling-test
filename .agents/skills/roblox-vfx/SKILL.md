@@ -6,9 +6,9 @@ last_reviewed: 2026-06-17
 
 # roblox-vfx
 
-**Main source:** https://create.roblox.com/docs/en-us/effects/particle-emitters + the Effects section of the docs and the ParticleEmitter class reference.
+**Main sources:** https://create.roblox.com/docs/effects and https://create.roblox.com/docs/reference/engine/classes/ParticleEmitter.
 
-Compose world mood with Roblox lighting, sky and atmosphere; use native emitters, beams, trails and highlights for effects. Custom visuals should fill a specific artistic or behavioral gap. Tune particle lifetime, size, transparency and rate together; profile overlapping transparent effects on the lowest target device.
+Start with Roblox effect objects and configure their textures, colors and timing for the art direction. Compose world mood with lighting, sky and atmosphere; use emitters, beams, trails and highlights for effects. Custom geometry or visual simulation should fill a specific artistic or behavioral gap. Tune particle lifetime, size, transparency and rate together; profile overlapping transparent effects on the lowest target device.
 
 For marker-triggered bursts, read [roblox-animation](../roblox-animation/SKILL.md). For UI particles, read [roblox-user-interfaces](../roblox-user-interfaces/SKILL.md); ParticleEmitters do not render inside ViewportFrame.
 
@@ -16,7 +16,7 @@ For marker-triggered bursts, read [roblox-animation](../roblox-animation/SKILL.m
 
 - Compose `Lighting` time, ambient light, exposure and `LightingStyle` with the art direction.
 - Use `Sky` under Lighting for the skybox/sun/moon/stars, `Atmosphere` for haze and distance, and `Clouds` under Terrain for cloud cover.
-- Add local lights and restrained post-processing for focal points; keep play areas and interaction targets readable indoors and at night.
+- Use local lights to illuminate surroundings and restrained `BloomEffect` for glow; keep play areas and interaction targets readable indoors and at night.
 - For day/night cycles, coordinate lighting, sky and atmosphere from a shared clock; blend numeric and color transitions.
 
 Official environment guide: https://create.roblox.com/docs/environment
@@ -92,13 +92,13 @@ Prepare a grid sheet (2x2, 4x4, 8x8, Custom) with transparent spacing between fr
 
 - Call `ContentProvider:PreloadAsync({texture})` for flipbook atlases and prominent effect textures before they are needed (e.g., during loading screens or before a combat sequence). This prevents mid-burst pop-in on lower-end devices.
 
-## Patterns
+## Effect selection and timing
 
-- Continuous ambient (fire, smoke, rain): Rate + Lifetime + Size tuned so density looks right at normal camera distances.
-- One-shot bursts (explosion, impact, muzzle flash): Set Rate low or 0, then call emitter:Emit(num) from an animation marker or event.
-- Attached effects (foot dust, weapon trail, aura): Parent emitter or its attachment to the moving part/bone. Use LockedToPart or VelocityInheritance as appropriate.
-- Wind-reactive: Enable global wind in the environment, set Drag > 0 and WindAffectsDrag = true on the emitter.
-- Combined with animation: Marker "FootStep" → find foot Attachment → Emit or play a short one-shot emitter.
+- `Sparkles`, `Fire` and `Smoke` offer simple built-in looks; choose `ParticleEmitter` for authored textures, motion or precisely timed bursts.
+- For footsteps or hoofbeats, emit small dust/sparkle bursts at contact attachments, timed by animation markers. Use `Trail` for a continuous movement ribbon and scale emission with speed.
+- For growth or other milestones, set `Rate = 0` and use a brief `ParticleEmitter:Emit()` burst timed to the confirmed state transition; blend model changes with `TweenService` through roblox-animation.
+- For ambient magic, fireflies or drifting leaves, use low-rate emitters in nearby zones with varied lifetime and motion. Use `Beam` for directed energy and `Highlight` for selection feedback.
+- For wind-reactive particles, enable global wind, set Drag > 0 and WindAffectsDrag = true.
 
 See the references/ folder (particle-emitter-properties.md, shapes-flipbooks-and-advanced.md) for the exhaustive property reference, visual examples, optimization checklists, and concrete code for common effects (integration covered in SKILL and cross-skill notes).
 

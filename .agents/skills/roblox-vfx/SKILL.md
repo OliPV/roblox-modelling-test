@@ -1,6 +1,6 @@
 ---
 name: roblox-vfx
-description: "Build or optimize Roblox particles, beams, trails, and highlights. Use for emitter shapes, flipbooks, one-shot bursts, animation-marker effects, distance culling, and overdraw."
+description: "Build or tune Roblox lighting, skies, atmosphere, particles, beams, trails and highlights. Use for world mood, day/night presentation, timed effects, culling and overdraw."
 last_reviewed: 2026-06-17
 ---
 
@@ -8,9 +8,18 @@ last_reviewed: 2026-06-17
 
 **Main source:** https://create.roblox.com/docs/en-us/effects/particle-emitters + the Effects section of the docs and the ParticleEmitter class reference.
 
-Tune particle lifetime, size, transparency, and rate together. Profile overlapping transparent effects on the lowest target device.
+Compose world mood with Roblox lighting, sky and atmosphere; use native emitters, beams, trails and highlights for effects. Custom visuals should fill a specific artistic or behavioral gap. Tune particle lifetime, size, transparency and rate together; profile overlapping transparent effects on the lowest target device.
 
 For marker-triggered bursts, read [roblox-animation](../roblox-animation/SKILL.md). For UI particles, read [roblox-user-interfaces](../roblox-user-interfaces/SKILL.md); ParticleEmitters do not render inside ViewportFrame.
+
+## Lighting, sky and atmosphere
+
+- Compose `Lighting` time, ambient light, exposure and `LightingStyle` with the art direction.
+- Use `Sky` under Lighting for the skybox/sun/moon/stars, `Atmosphere` for haze and distance, and `Clouds` under Terrain for cloud cover.
+- Add local lights and restrained post-processing for focal points; keep play areas and interaction targets readable indoors and at night.
+- For day/night cycles, coordinate lighting, sky and atmosphere from a shared clock; blend numeric and color transitions.
+
+Official environment guide: https://create.roblox.com/docs/environment
 
 ## Core creation and parenting
 
@@ -98,7 +107,7 @@ See the references/ folder (particle-emitter-properties.md, shapes-flipbooks-and
 - Beam: textured ribbon between two Attachments (lasers, energy, ropes). Key properties: `Texture`, `TextureMode`/`TextureLength`/`TextureSpeed`, `Color`, `Transparency` (NumberSequence along the beam), `Width0`/`Width1`, `CurveSize0`/`CurveSize1`, `FaceCamera`, `LightEmission`, `LightInfluence`, `ZOffset`.
 - Trail: ribbon left behind two Attachments as their parent part moves (sword trails, projectile paths, after-images). Key properties: `Color`, `Transparency`, `Texture`, `TextureMode`, `TextureLength`, `MinLength`, `MaxLength`, `WidthScale`, `LightEmission`, `LightInfluence`, `FaceCamera`, `Lifetime`.
 - Highlight: cheap, effective outlines (selection, targeting, "powered up"). Has both an outline and a solid interior fill (`FillColor`/`FillTransparency`, `OutlineColor`/`OutlineTransparency`). `DepthMode` controls whether the highlight is visible through walls (`AlwaysOnTop`) or only when not occluded (`Occluded`). There is a client-side cap of 255 simultaneous `Highlight` instances (disabled instances still count toward the cap).
-- PointLight / SpotLight / SurfaceLight + Atmosphere + PostProcessing for overall mood that makes particles read correctly.
+- PointLight / SpotLight / SurfaceLight for localized illumination; coordinate them with the environment above.
 
 ## Cleanup for transient emitters
 

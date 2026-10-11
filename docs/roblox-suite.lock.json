@@ -101,5 +101,17 @@
     "roblox/references/architecture-principles.md": "01bd5b172e031392a30d543eb5fbc2cd7fd924d417eab43193c7f5bea4e6f7b8",
     "roblox/references/cross-skill-integration.md": "8f638d3c340eae00487d2949027db9d0def58704f933b1ce392e99ca67bf5d83",
     "roblox/SKILL.md": "39f0ed6402e5738f6c9135fcda8006575eb54dee57aa8ca4fe8da5bfb43bbf6b"
+  },
+  "localPatch": {
+    "path": "docs/roblox-suite-local.patch",
+    "sha256": "572934fa41caa41b6625f36659bd32db555709736cca2b408e2d03197a8f67cd",
+    "files": {
+      "roblox-animation/SKILL.md": "fc4aacf7f41fb57ed77607975fa4715e224f3150c94d27c0fac8c470aa3a89c6",
+      "roblox-core/SKILL.md": "bf4bb5ec21d3054cb60b4696a1aaca212032e360eb13e761735709ba0b854766",
+      "roblox-npcs/SKILL.md": "df73db87efd917b1cd9b924e2d50df81ffd5f58b2b956ef957ea48aabe8e5474",
+      "roblox-user-interfaces/SKILL.md": "cafc847b280773203c5920bc3c200f58d08d5abb12904283485a2ace4e77cf27",
+      "roblox-vfx/SKILL.md": "d80454d66aed129ddccf21c89a43eb0577670cb7ff4885c7791883edc2465fcc",
+      "roblox/SKILL.md": "902c0403736fbbe15cb059ac9f74b11ee0a906683690cf41587626071fa5fa1d"
+    }
   }
 }

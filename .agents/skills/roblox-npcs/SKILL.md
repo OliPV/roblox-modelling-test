@@ -11,7 +11,7 @@ last_reviewed: 2026-06-17
 - https://create.roblox.com/docs/en-us/workspace/streaming
 - Engine classes: `PathfindingService`, `Path`, `PathWaypoint`, `PathfindingModifier`, `PathfindingLink`, `Humanoid`
 
-Use PathfindingService for navigation on Roblox's navigation mesh. Build patrol, chase, and other behavior around its computed paths.
+Start with PathfindingService and agent dimensions matched to the rig and traversable geometry. Build patrol, chase and interaction approaches around its computed paths; use custom routing for a demonstrated navigation gap.
 
 ## PathfindingService basics
 

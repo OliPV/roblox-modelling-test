@@ -29,6 +29,15 @@ if ((Get-Content -LiteralPath (Join-Path $projectRoot 'CLAUDE.md') -Raw) -notmat
 & (Join-Path $PSScriptRoot 'sync-claude-skills.ps1') -Check
 $skillsRoot = Join-Path $projectRoot '.agents/skills'
 $lock = Get-Content -LiteralPath (Join-Path $projectRoot 'docs/roblox-suite.lock.json') -Raw | ConvertFrom-Json -AsHashtable
+if ($lock.localPatch) {
+    $patchPath = Join-Path $projectRoot $lock.localPatch.path
+    if ((Get-FileHash -LiteralPath $patchPath -Algorithm SHA256).Hash.ToLowerInvariant() -ne $lock.localPatch.sha256) {
+        throw 'Local skill patch differs from its provenance record.'
+    }
+    foreach ($key in $lock.localPatch.files.Keys) {
+        if (!$lock.files.Contains($key)) { throw "Local patch references an unvendored file: $key" }
+    }
+}
 $files = @(Get-ChildItem -LiteralPath $skillsRoot -Recurse -File)
 $owned = Get-Content -LiteralPath (Join-Path $projectRoot 'docs/project-skill-files.json') -Raw | ConvertFrom-Json
 $actual = @($files | ForEach-Object { [IO.Path]::GetRelativePath($skillsRoot, $_.FullName).Replace('\', '/') })
@@ -37,7 +46,8 @@ if (@(Compare-Object $expected $actual).Count) { throw 'Skill inventory differs 
 foreach ($file in $files) {
     $relative = [IO.Path]::GetRelativePath($skillsRoot, $file.FullName).Replace('\', '/')
     if ($relative -in $owned.files) { continue }
-    if ((Get-FileHash -LiteralPath $file.FullName -Algorithm SHA256).Hash.ToLowerInvariant() -ne $lock.files[$relative]) {
+    $expectedHash = if ($lock.localPatch -and $lock.localPatch.files.Contains($relative)) { $lock.localPatch.files[$relative] } else { $lock.files[$relative] }
+    if ((Get-FileHash -LiteralPath $file.FullName -Algorithm SHA256).Hash.ToLowerInvariant() -ne $expectedHash) {
         throw "Vendored skill changed: $relative. Review and update its provenance deliberately."
     }
 }

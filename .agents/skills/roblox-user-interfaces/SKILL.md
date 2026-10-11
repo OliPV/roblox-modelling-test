@@ -6,7 +6,7 @@ last_reviewed: 2026-06-17
 
 # roblox-user-interfaces
 
-Choose a GUI container for the display surface, then use layouts and constraints to handle screen sizes. For particles inside a ScreenGui, use 2D UI objects; ParticleEmitter does not render there.
+Choose the interaction before its presentation: `ProximityPrompt` for nearby actions, `ClickDetector` for object selection, and drag detectors for direct manipulation. Configure the built-in behavior first; use a custom menu when the requested choices need one. Then choose a GUI container, layouts and constraints for its display surface. For particles inside a ScreenGui, use 2D UI objects; ParticleEmitter does not render there.
 
 **Primary sources:**
 - https://create.roblox.com/docs/en-us/ui
@@ -77,9 +77,9 @@ See references/gui-containers.md for exhaustive property tables, common hierarch
 - MouseButton1Click / MouseButton1Down etc. still exist but are less ideal for cross-platform.
 - TextBox has FocusLost, Focused, ReturnPressedFromOnScreenKeyboard, etc.
 - Newer: UI drag detectors (2D) and 3D drag detectors for sliders, spinners, draggable objects, doors, etc.
-- ProximityPrompt for 3D world "press E to interact" style prompts (separate but often paired with UI).
+- ProximityPrompt supplies nearby activation and device-appropriate input cues; retain that behavior when customizing its appearance. Give each action one primary interaction surface, with consistent keyboard/touch/gamepad access.
 
-Control default Roblox UI with `StarterGui:SetCoreGuiEnabled(Enum.CoreGuiType.PlayerList, false)` etc. Hide virtual controls with `GuiService.TouchControlsEnabled = false` when you provide custom input.
+Keep default Roblox movement, camera and touch controls as the baseline. Use `StarterGui:SetCoreGuiEnabled` or `GuiService.TouchControlsEnabled` when an intentional replacement covers their relevant behavior.
 
 ## Particle effects in UI
 

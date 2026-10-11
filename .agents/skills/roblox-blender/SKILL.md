@@ -21,9 +21,11 @@ Use Blender's scripting API or available screen control after checking the insta
 and actual capabilities. Blender MCP is optional. Do not claim integration is configured or
 working until tested. Install or connect tools only when needed for an actual requested task.
 
-For Roblox integration, check scale/orientation, pivots, normals, topology, UVs/textures,
-materials, collisions and performance. For animated assets, check rig compatibility,
-skinning, animation export/import and actual in-game playback as applicable.
+Choose the Roblox movement/animation system before finalizing an animated model;
+shape its rig and proportions around that integration. Author pivots, contact/seat
+points, simple colliders and required doorway clearances alongside visible geometry.
+For Roblox integration, check scale/orientation, normals, topology, UVs/textures,
+materials, performance, rig compatibility, skinning and animation export/import.
 Export a currently supported format and inspect the import in Studio. Some Blender features
 need baking or conversion; preserve the editable original and prepare a suitable export copy.
 Imported meshes/scenes remain Studio-owned, outside Rojo's code folders.

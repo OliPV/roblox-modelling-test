@@ -8,6 +8,12 @@ last_reviewed: 2026-06-17
 
 **Key sources:** https://create.roblox.com/docs/en-us/scripting/services, https://create.roblox.com/docs/en-us/luau, https://create.roblox.com/docs/en-us/luau/tables, https://create.roblox.com/docs/en-us/luau/type-checking, https://create.roblox.com/docs/en-us/scripting/locations, https://create.roblox.com/docs/en-us/projects/data-model, https://create.roblox.com/docs/en-us/projects/client-server, https://create.roblox.com/docs/en-us/workspace/streaming, https://create.roblox.com/docs/en-us/scripting/multithreading, https://create.roblox.com/docs/en-us/scripting/attributes
 
+## Player controls
+
+Start with Roblox's default movement, camera, joystick and jump controls. Bind additional actions through the Input Action System (`InputAction`, `InputBinding`, `InputContext`), or `ContextActionService` where the project requires it. Custom movement should consume the existing input path and have one clear controller.
+
+Official input guide: https://create.roblox.com/docs/input
+
 ## Script initialization
 
 1. `local Service = game:GetService("ServiceName")`. Do this once, name the variable after the service.

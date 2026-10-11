@@ -24,7 +24,7 @@ Choose the skill matching the task. Each specialist links to its own detailed re
 - [roblox-datastores](../roblox-datastores/SKILL.md): Save player data, handle concurrent writes, and recover versions
 - [roblox-user-interfaces](../roblox-user-interfaces/SKILL.md): Build responsive GUIs, handle input, and add UI effects
 - [roblox-animation](../roblox-animation/SKILL.md): Animate rigs, configure IK, tween properties, and time marker events
-- [roblox-vfx](../roblox-vfx/SKILL.md): Build particles, flipbooks, beams, trails, and highlights
+- [roblox-vfx](../roblox-vfx/SKILL.md): Tune lighting, sky and atmosphere; build particles, beams, trails and highlights
 - [roblox-audio](../roblox-audio/SKILL.md): Build audio graphs, mix effects, and migrate legacy Sound code
 - [roblox-gamepasses](../roblox-gamepasses/SKILL.md): Handle passes, products, subscriptions, transfers, and purchase policy
 - [roblox-open-cloud](../roblox-open-cloud/SKILL.md): Automate Roblox resources through REST APIs or supported HttpService calls
@@ -58,10 +58,11 @@ Choose the skill matching the task. Each specialist links to its own detailed re
 
 ## Workflow
 
-1. Load the specialist that owns the task. For broad architecture work, also read [architecture-principles.md](references/architecture-principles.md).
-2. Follow that specialist's reference links for the feature or failure you are handling. For systems that interact, read [cross-skill-integration.md](references/cross-skill-integration.md).
-3. Adapt script examples to the project and check their maturity labels. Validate changes in a dedicated test experience.
-4. Before handing off, report which checks passed, which need Roblox integration, and any unresolved API or policy questions. Check uncertain behavior against the official sources above.
+1. Start with supported Roblox systems and familiar player controls. Configure or extend them to fit the requested experience; custom code should cover a specific remaining gap. State that gap briefly when choosing a replacement.
+2. Load the specialist that owns the task. For broad architecture work, also read [architecture-principles.md](references/architecture-principles.md).
+3. Follow that specialist's reference links for the feature or failure you are handling. For systems that interact, read [cross-skill-integration.md](references/cross-skill-integration.md).
+4. Adapt script examples to the project and check their maturity labels. Validate changes in a dedicated test experience.
+5. Before handing off, report which checks passed, which need Roblox integration, and any unresolved API or policy questions. Check uncertain behavior against the official sources above.
 
 <!-- catalog:references:start -->
 ## Reference index

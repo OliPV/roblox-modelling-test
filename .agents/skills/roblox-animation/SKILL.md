@@ -6,7 +6,7 @@ last_reviewed: 2026-06-17
 
 # roblox-animation
 
-Choose animation tracks for authored rig motion, TweenService for property changes, and IKControl for procedural poses. Validate gameplay outcomes on the server even when a client animation triggers the visual effect.
+Use `Humanoid` with `Animator` for character behavior that fits Roblox's character system, or `AnimationController` with `Animator` for other animated rigs. Choose animation tracks for authored motion, TweenService for property changes, and IKControl for procedural poses. Validate gameplay outcomes on the server even when a client animation triggers the visual effect.
 
 **Key official sources:**
 - https://create.roblox.com/docs/animation (overview)

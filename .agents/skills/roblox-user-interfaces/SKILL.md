@@ -91,11 +91,13 @@ Direct ParticleEmitter lives in the 3D world (parent to Part or Attachment). For
 4. **UIStroke + UIGradient animated**. Energy borders, charging effects, animated lines.
 5. **Text + MaxVisibleGraphemes** combined with small image "particles" for fancy dialogue or title sequences.
 
-Performance reality: Transparent overdraw and fill-rate are the enemy on mobile. Keep concurrent UI "particles" low, reuse instances aggressively, use smaller textures, and test at low graphics quality.
+Performance reality: Transparent overdraw and fill-rate are the enemy on mobile. Keep concurrent UI "particles" low, reuse instances aggressively and use smaller textures. Check low graphics quality before release or earlier when density or observed frame time warrants it.
 
 See the dedicated references/particles-in-ui.md for concrete pool implementations, ViewportFrame setup patterns, integration with 3D markers, and performance guardrails.
 
 ## Responsive layouts
+
+Build flexible layouts and cross-device activation from the start. During iteration, spot-check major layout/input changes; complete target-device sizes, orientations and physical-input coverage before release.
 
 - Design in a canonical resolution/aspect (e.g. 1920x1080 or a common mobile one) but implement everything in scale + constraints.
 - Use UIListLayout + AutomaticSize + Padding for rows/columns instead of manually calculating positions.
@@ -118,7 +120,7 @@ See the dedicated references/particles-in-ui.md for concrete pool implementation
 **Particles / VFX in UI:**
 - [ ] Instance pooling / recycling.
 - [ ] Limited concurrent count.
-- [ ] Tested at lowest graphics quality.
+- [ ] Changed effects inspected during iteration; low-graphics/device coverage completed before release.
 - [ ] Tied to meaningful gameplay moments (via markers from the animation skill or UI events).
 
 

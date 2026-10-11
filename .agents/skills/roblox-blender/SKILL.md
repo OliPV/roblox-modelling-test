@@ -12,6 +12,12 @@ benefits from custom modelling, rigging or animation.
 For AI-first/shared/developer-led work and creative approvals, use
 [roblox-collaboration](../roblox-collaboration/SKILL.md).
 
+When art direction is uncertain, propose one representative asset before batch production
+as an experiment in the feature approval, including its purpose, review checkpoint and
+pending variants. Complete and inspect that asset at the intended in-game light and scale
+before making variants. Reuse suitable project materials, rigs and components, and batch
+related exports/imports. Continue variants and polish within the approved art direction.
+
 Keep the .blend file as the editable source of truth, including rigs and animation actions.
 Preserve an original/version before edits. Keep editable sources separate from export copies.
 Help diagnose modelling, shading, UV, texture, rigging, weight-painting and animation issues

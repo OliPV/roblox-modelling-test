@@ -46,9 +46,9 @@
 - Use the strongest available reasoning for demanding modelling, rigging and world/visual builds;
   routine transforms and simple Parts do not require it.
 - Change models/effort only through actual available controls; never claim an unperformed change.
-- Delegate only separable work when permitted and useful, normally at most two subagents.
-- Keep writes separate; the main agent integrates and verifies. No context-only delegation
-  or custom routing infrastructure. Quality takes precedence over token savings.
+- Use parallel agents for independent implementation or review when it shortens delivery;
+  size the team to useful work and available capacity. Give each a bounded deliverable
+  and separate writes; the main agent integrates and verifies.
 
 ## Engineering and boundaries
 - Use maintainable Luau, server authority, responsive controls, intentional presentation,
@@ -64,10 +64,13 @@
   private assets/context by accident. See `.gitignore` and `docs/SETUP.md`.
 
 ## Done means tested
-- Run formatting/static checks, then run the game and exercise the changed player experience.
+- Run relevant formatting/static checks and exercise changed behavior plus affected paths.
+  Broaden checks at milestones, before release, or when shared systems change.
 - Read console output; capture and look at useful views. Fix and re-test failures.
-- Significant UI needs relevant device sizes/input. Multiplayer needs client/server or
-  multi-client checks; solo play and compilation alone are insufficient evidence.
+- Build cross-device input and flexible layouts from the start; spot-check major UI/input
+  changes during development. Complete device/controller/low-end QA before release.
+- Check multiplayer when ownership, replication or shared state changes; use client/server
+  or multi-client checks appropriate to the behavior.
 - VERIFIED means runtime behavior exercised and visual work visually inspected.
 - If Studio is unavailable, label pending runtime work UNVERIFIED; record checks, never invent evidence.
 - Bug reports are evidence: reproduce, inspect, fix the cause, re-test the exact scenario and

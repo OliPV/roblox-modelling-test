@@ -14,7 +14,14 @@ last_reviewed: 2026-06-17
 - https://create.roblox.com/docs/en-us/studio/optimization/memory-usage
 - https://create.roblox.com/docs/en-us/studio/optimization/scriptprofiler
 
-Start with a reproducible failure and identify whether it occurs on the client, server, or both. Choose a debugging or profiling tool based on that evidence.
+Scope verification to the changed behavior, affected integrations and development phase. For debugging, reproduce the failure and identify whether it occurs on the client, server, or both; choose tools from that evidence.
+
+## Iteration and release
+
+- During development, run relevant static checks and exercise the changed player flow plus nearby regressions. Shared-system changes warrant broader checks.
+- Keep cross-device foundations in place; spot-check major UI/input changes. Complete target-device, controller, low-end and network-condition coverage before release.
+- Verify authority, multiplayer correctness and data safety as those systems change.
+- Reuse valid evidence for unchanged behavior; broaden regression coverage at milestones and before release.
 
 ## The debugging mindset
 

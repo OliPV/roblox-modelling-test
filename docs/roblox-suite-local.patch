@@ -1,5 +1,5 @@
 diff --git a/.agents/skills/roblox-animation/SKILL.md b/.agents/skills/roblox-animation/SKILL.md
-index e4646b1..2926d07 100644
+index e4646b1..621b7cd 100644
 --- a/.agents/skills/roblox-animation/SKILL.md
 +++ b/.agents/skills/roblox-animation/SKILL.md
 @@ -6,7 +6,7 @@ last_reviewed: 2026-06-17
@@ -11,6 +11,24 @@ index e4646b1..2926d07 100644
 
  **Key official sources:**
  - https://create.roblox.com/docs/animation (overview)
+@@ -63,7 +63,7 @@ For text reveal, use `TextLabel.MaxVisibleGraphemes` and account for localizatio
+ - **Client vs Server playback**: For a player's own character, animations played on the client replicate to the server via the Animator (subject to ownership/permissions); for NPCs and other characters, the server is the authority. Cosmetic or prediction-friendly animations can be client-only. Gameplay-affecting timing (damage windows, movement locks) should be validated server-side; do not treat client markers as authoritative proof of a hit.
+ - **Preload + cache tracks**: Load once per rig type, reuse the AnimationTrack objects. Use `AnimationClipProvider` for async animation loading when you need previews or streaming behavior.
+ - **UI + 3D harmony**: Tween a 3D part or Attachment while a BillboardGui or SurfaceGui on it also tweens (or uses ViewportFrame for embedded 3D previews with parts/meshes/cameras; note that ParticleEmitters/Beams/Trails/Lights do not render inside ViewportFrame).
+-- **Testing**: Different devices have different frame rates and input latency. Test easing feels on mobile + desktop. Use MicroProfiler for heavy simultaneous tweens.
++- **Testing**: During iteration, inspect changed motion and spot-check major input changes. Complete target-device/frame-rate coverage before release; use MicroProfiler when simultaneous tweens warrant it.
+
+ ## Common mistakes
+
+@@ -80,7 +80,7 @@ For text reveal, use `TextLabel.MaxVisibleGraphemes` and account for localizatio
+
+ Adapt [AnimationLoader.lua](scripts/AnimationLoader.lua), [TweenHelper.lua](scripts/TweenHelper.lua), or [IKSetup.lua](scripts/IKSetup.lua) when the helper fits the task.
+
+-For a changed animation, verify that it plays at the intended priority, fires its markers, and cleans up when the rig is removed. For UI motion, check the target screen sizes and cancellation path. Use [integration-and-events.md](references/integration-and-events.md) when motion drives another system.
++For a changed animation, verify that it plays at the intended priority, fires its markers, and cleans up when the rig is removed. For UI motion, spot-check materially changed layouts and check cancellation. Use [integration-and-events.md](references/integration-and-events.md) when motion drives another system.
+
+ <!-- catalog:references:start -->
+ ## Reference index
 diff --git a/.agents/skills/roblox-core/SKILL.md b/.agents/skills/roblox-core/SKILL.md
 index 5ce1681..a95f5a0 100644
 --- a/.agents/skills/roblox-core/SKILL.md
@@ -41,8 +59,28 @@ index 5048924..0b4ea85 100644
 
  ## PathfindingService basics
 
+diff --git a/.agents/skills/roblox-testing/SKILL.md b/.agents/skills/roblox-testing/SKILL.md
+index 2de80b6..810412f 100644
+--- a/.agents/skills/roblox-testing/SKILL.md
++++ b/.agents/skills/roblox-testing/SKILL.md
+@@ -14,7 +14,14 @@ last_reviewed: 2026-06-17
+ - https://create.roblox.com/docs/en-us/studio/optimization/memory-usage
+ - https://create.roblox.com/docs/en-us/studio/optimization/scriptprofiler
+
+-Start with a reproducible failure and identify whether it occurs on the client, server, or both. Choose a debugging or profiling tool based on that evidence.
++Scope verification to the changed behavior, affected integrations and development phase. For debugging, reproduce the failure and identify whether it occurs on the client, server, or both; choose tools from that evidence.
++
++## Iteration and release
++
++- During development, run relevant static checks and exercise the changed player flow plus nearby regressions. Shared-system changes warrant broader checks.
++- Keep cross-device foundations in place; spot-check major UI/input changes. Complete target-device, controller, low-end and network-condition coverage before release.
++- Verify authority, multiplayer correctness and data safety as those systems change.
++- Reuse valid evidence for unchanged behavior; broaden regression coverage at milestones and before release.
+
+ ## The debugging mindset
+
 diff --git a/.agents/skills/roblox-user-interfaces/SKILL.md b/.agents/skills/roblox-user-interfaces/SKILL.md
-index 4c40e66..df57096 100644
+index 4c40e66..a0c7d90 100644
 --- a/.agents/skills/roblox-user-interfaces/SKILL.md
 +++ b/.agents/skills/roblox-user-interfaces/SKILL.md
 @@ -6,7 +6,7 @@ last_reviewed: 2026-06-17
@@ -66,8 +104,33 @@ index 4c40e66..df57096 100644
 
  ## Particle effects in UI
 
+@@ -91,12 +91,14 @@ Direct ParticleEmitter lives in the 3D world (parent to Part or Attachment). For
+ 4. **UIStroke + UIGradient animated**. Energy borders, charging effects, animated lines.
+ 5. **Text + MaxVisibleGraphemes** combined with small image "particles" for fancy dialogue or title sequences.
+
+-Performance reality: Transparent overdraw and fill-rate are the enemy on mobile. Keep concurrent UI "particles" low, reuse instances aggressively, use smaller textures, and test at low graphics quality.
++Performance reality: Transparent overdraw and fill-rate are the enemy on mobile. Keep concurrent UI "particles" low, reuse instances aggressively and use smaller textures. Check low graphics quality before release or earlier when density or observed frame time warrants it.
+
+ See the dedicated references/particles-in-ui.md for concrete pool implementations, ViewportFrame setup patterns, integration with 3D markers, and performance guardrails.
+
+ ## Responsive layouts
+
++Build flexible layouts and cross-device activation from the start. During iteration, spot-check major layout/input changes; complete target-device sizes, orientations and physical-input coverage before release.
++
+ - Design in a canonical resolution/aspect (e.g. 1920x1080 or a common mobile one) but implement everything in scale + constraints.
+ - Use UIListLayout + AutomaticSize + Padding for rows/columns instead of manually calculating positions.
+ - For different device classes, either use multiple ScreenGui variants toggled by UserInputService or make one layout that flexes via the layout objects + size modifiers.
+@@ -118,7 +120,7 @@ See the dedicated references/particles-in-ui.md for concrete pool implementation
+ **Particles / VFX in UI:**
+ - [ ] Instance pooling / recycling.
+ - [ ] Limited concurrent count.
+-- [ ] Tested at lowest graphics quality.
++- [ ] Changed effects inspected during iteration; low-graphics/device coverage completed before release.
+ - [ ] Tied to meaningful gameplay moments (via markers from the animation skill or UI events).
+
+
 diff --git a/.agents/skills/roblox-vfx/SKILL.md b/.agents/skills/roblox-vfx/SKILL.md
-index f372e0b..37de091 100644
+index f372e0b..f0b6d86 100644
 --- a/.agents/skills/roblox-vfx/SKILL.md
 +++ b/.agents/skills/roblox-vfx/SKILL.md
 @@ -1,17 +1,26 @@
@@ -84,7 +147,7 @@ index f372e0b..37de091 100644
 +**Main sources:** https://create.roblox.com/docs/effects and https://create.roblox.com/docs/reference/engine/classes/ParticleEmitter.
 
 -Tune particle lifetime, size, transparency, and rate together. Profile overlapping transparent effects on the lowest target device.
-+Start with Roblox effect objects and configure their textures, colors and timing for the art direction. Compose world mood with lighting, sky and atmosphere; use emitters, beams, trails and highlights for effects. Custom geometry or visual simulation should fill a specific artistic or behavioral gap. Tune particle lifetime, size, transparency and rate together; profile overlapping transparent effects on the lowest target device.
++Start with Roblox effect objects and configure their textures, colors and timing for the art direction. Compose world mood with lighting, sky and atmosphere; use emitters, beams, trails and highlights for effects. Custom geometry or visual simulation should fill a specific artistic or behavioral gap. Tune particle lifetime, size, transparency and rate together.
 
  For marker-triggered bursts, read [roblox-animation](../roblox-animation/SKILL.md). For UI particles, read [roblox-user-interfaces](../roblox-user-interfaces/SKILL.md); ParticleEmitters do not render inside ViewportFrame.
 
@@ -100,6 +163,15 @@ index f372e0b..37de091 100644
  ## Core creation and parenting
 
  - Parent ParticleEmitter to a BasePart (emission fills bounds or chosen EmissionDirection face) **or** (strongly preferred for control) to an Attachment.
+@@ -61,7 +70,7 @@ Prepare a grid sheet (2x2, 4x4, 8x8, Custom) with transparent spacing between fr
+
+ - Fill rate (pixels covered by overlapping transparent layers) and overdraw are the main GPU costs.
+ - Rate × Size × average opacity × how many overlap on screen = cost.
+-- Always test at both lowest and highest Studio Editor Quality Level.
++- Inspect changed effects during iteration; complete low/high-quality device checks before release. Profile earlier when effect density or observed frame time warrants it.
+ - Mobile rate is capped lower.
+ - Use .Enabled = false to pause (existing particles continue until they die or you call :Clear()).
+ - Many simultaneous high-rate/large/transparent emitters will cause the engine to throttle or drop effects on low-end clients.
 @@ -83,13 +92,13 @@ Prepare a grid sheet (2x2, 4x4, 8x8, Custom) with transparent spacing between fr
 
  - Call `ContentProvider:PreloadAsync({texture})` for flipbook atlases and prominent effect textures before they are needed (e.g., during loading screens or before a combat sequence). This prevents mid-burst pop-in on lower-end devices.
@@ -130,7 +202,7 @@ index f372e0b..37de091 100644
  ## Cleanup for transient emitters
 
 diff --git a/.agents/skills/roblox/SKILL.md b/.agents/skills/roblox/SKILL.md
-index 84b80d1..2629c27 100644
+index 84b80d1..3176911 100644
 --- a/.agents/skills/roblox/SKILL.md
 +++ b/.agents/skills/roblox/SKILL.md
 @@ -24,7 +24,7 @@ Choose the skill matching the task. Each specialist links to its own detailed re
@@ -142,7 +214,19 @@ index 84b80d1..2629c27 100644
  - [roblox-audio](../roblox-audio/SKILL.md): Build audio graphs, mix effects, and migrate legacy Sound code
  - [roblox-gamepasses](../roblox-gamepasses/SKILL.md): Handle passes, products, subscriptions, transfers, and purchase policy
  - [roblox-open-cloud](../roblox-open-cloud/SKILL.md): Automate Roblox resources through REST APIs or supported HttpService calls
-@@ -58,10 +58,11 @@ Choose the skill matching the task. Each specialist links to its own detailed re
+@@ -42,9 +42,9 @@ Choose the skill matching the task. Each specialist links to its own detailed re
+ 2. **Everything that talks to the cloud is fallible.** Wrap DataStore, Marketplace, Http, etc. calls in pcall. Have a plan for transient vs permanent errors.
+ 3. **Preload assets.** ContentProvider:PreloadAsync for animations, images, sounds, models.
+ 4. **Use modern APIs.** Animator + LoadAnimation, task.* scheduler, TweenService, IKControl, CollectionService tags, Attributes, etc. Avoid deprecated BodyMovers, wait/spawn/delay, Humanoid:LoadAnimation, etc.
+-5. **Respect limits.** DataStore budgets scale with concurrent users but are still finite. Particles and transparent UI are fill-rate expensive. Profile early.
++5. **Respect limits.** DataStore budgets scale with concurrent users but are still finite. Particles and transparent UI are fill-rate expensive. Profile when scale, density or observed frame time warrants it.
+ 6. **Structure for maintainability.** ServerScriptService for authority, ReplicatedStorage for shared modules, StarterGui for client UI roots, clear module boundaries, consistent naming.
+-7. **Test the hard parts.** Studio with API access only on test places. Multiple device classes. Low graphics quality for effects/UI. Concurrency (multiple servers touching the same keys).
++7. **Verify by phase and risk.** Exercise changed behavior and affected integrations; check multiplayer and data safety when touched. Complete broad device, graphics-quality and concurrency checks before release; see roblox-testing.
+
+ ## Modern API notes
+
+@@ -58,10 +58,12 @@ Choose the skill matching the task. Each specialist links to its own detailed re
 
  ## Workflow
 
@@ -151,10 +235,11 @@ index 84b80d1..2629c27 100644
 -3. Adapt script examples to the project and check their maturity labels. Validate changes in a dedicated test experience.
 -4. Before handing off, report which checks passed, which need Roblox integration, and any unresolved API or policy questions. Check uncertain behavior against the official sources above.
 +1. Start with supported Roblox systems and familiar player controls. Configure or extend them to fit the requested experience; custom code should cover a specific remaining gap. State that gap briefly when choosing a replacement.
-+2. Load the specialist that owns the task. For broad architecture work, also read [architecture-principles.md](references/architecture-principles.md).
-+3. Follow that specialist's reference links for the feature or failure you are handling. For systems that interact, read [cross-skill-integration.md](references/cross-skill-integration.md).
-+4. Adapt script examples to the project and check their maturity labels. Validate changes in a dedicated test experience.
-+5. Before handing off, report which checks passed, which need Roblox integration, and any unresolved API or policy questions. Check uncertain behavior against the official sources above.
++2. Reuse suitable project components, materials and effects; batch related edits, exports/imports and checks through supported APIs or scripts.
++3. Load the specialist that owns the task. For broad architecture work, also read [architecture-principles.md](references/architecture-principles.md).
++4. Follow that specialist's reference links for the feature or failure you are handling. For systems that interact, read [cross-skill-integration.md](references/cross-skill-integration.md).
++5. Adapt script examples to the project and check their maturity labels. Run runtime checks in the working Studio session; use an isolated test experience for cloud or persistent-data checks.
++6. Before handing off, report which checks passed, which need Roblox integration, and any unresolved API or policy questions. Check uncertain behavior against the official sources above.
 
  <!-- catalog:references:start -->
  ## Reference index

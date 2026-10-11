@@ -42,9 +42,9 @@ Choose the skill matching the task. Each specialist links to its own detailed re
 2. **Everything that talks to the cloud is fallible.** Wrap DataStore, Marketplace, Http, etc. calls in pcall. Have a plan for transient vs permanent errors.
 3. **Preload assets.** ContentProvider:PreloadAsync for animations, images, sounds, models.
 4. **Use modern APIs.** Animator + LoadAnimation, task.* scheduler, TweenService, IKControl, CollectionService tags, Attributes, etc. Avoid deprecated BodyMovers, wait/spawn/delay, Humanoid:LoadAnimation, etc.
-5. **Respect limits.** DataStore budgets scale with concurrent users but are still finite. Particles and transparent UI are fill-rate expensive. Profile early.
+5. **Respect limits.** DataStore budgets scale with concurrent users but are still finite. Particles and transparent UI are fill-rate expensive. Profile when scale, density or observed frame time warrants it.
 6. **Structure for maintainability.** ServerScriptService for authority, ReplicatedStorage for shared modules, StarterGui for client UI roots, clear module boundaries, consistent naming.
-7. **Test the hard parts.** Studio with API access only on test places. Multiple device classes. Low graphics quality for effects/UI. Concurrency (multiple servers touching the same keys).
+7. **Verify by phase and risk.** Exercise changed behavior and affected integrations; check multiplayer and data safety when touched. Complete broad device, graphics-quality and concurrency checks before release; see roblox-testing.
 
 ## Modern API notes
 
@@ -59,10 +59,11 @@ Choose the skill matching the task. Each specialist links to its own detailed re
 ## Workflow
 
 1. Start with supported Roblox systems and familiar player controls. Configure or extend them to fit the requested experience; custom code should cover a specific remaining gap. State that gap briefly when choosing a replacement.
-2. Load the specialist that owns the task. For broad architecture work, also read [architecture-principles.md](references/architecture-principles.md).
-3. Follow that specialist's reference links for the feature or failure you are handling. For systems that interact, read [cross-skill-integration.md](references/cross-skill-integration.md).
-4. Adapt script examples to the project and check their maturity labels. Validate changes in a dedicated test experience.
-5. Before handing off, report which checks passed, which need Roblox integration, and any unresolved API or policy questions. Check uncertain behavior against the official sources above.
+2. Reuse suitable project components, materials and effects; batch related edits, exports/imports and checks through supported APIs or scripts.
+3. Load the specialist that owns the task. For broad architecture work, also read [architecture-principles.md](references/architecture-principles.md).
+4. Follow that specialist's reference links for the feature or failure you are handling. For systems that interact, read [cross-skill-integration.md](references/cross-skill-integration.md).
+5. Adapt script examples to the project and check their maturity labels. Run runtime checks in the working Studio session; use an isolated test experience for cloud or persistent-data checks.
+6. Before handing off, report which checks passed, which need Roblox integration, and any unresolved API or policy questions. Check uncertain behavior against the official sources above.
 
 <!-- catalog:references:start -->
 ## Reference index

@@ -8,7 +8,7 @@ last_reviewed: 2026-06-17
 
 **Main sources:** https://create.roblox.com/docs/effects and https://create.roblox.com/docs/reference/engine/classes/ParticleEmitter.
 
-Start with Roblox effect objects and configure their textures, colors and timing for the art direction. Compose world mood with lighting, sky and atmosphere; use emitters, beams, trails and highlights for effects. Custom geometry or visual simulation should fill a specific artistic or behavioral gap. Tune particle lifetime, size, transparency and rate together; profile overlapping transparent effects on the lowest target device.
+Start with Roblox effect objects and configure their textures, colors and timing for the art direction. Compose world mood with lighting, sky and atmosphere; use emitters, beams, trails and highlights for effects. Custom geometry or visual simulation should fill a specific artistic or behavioral gap. Tune particle lifetime, size, transparency and rate together.
 
 For marker-triggered bursts, read [roblox-animation](../roblox-animation/SKILL.md). For UI particles, read [roblox-user-interfaces](../roblox-user-interfaces/SKILL.md); ParticleEmitters do not render inside ViewportFrame.
 
@@ -70,7 +70,7 @@ Prepare a grid sheet (2x2, 4x4, 8x8, Custom) with transparent spacing between fr
 
 - Fill rate (pixels covered by overlapping transparent layers) and overdraw are the main GPU costs.
 - Rate × Size × average opacity × how many overlap on screen = cost.
-- Always test at both lowest and highest Studio Editor Quality Level.
+- Inspect changed effects during iteration; complete low/high-quality device checks before release. Profile earlier when effect density or observed frame time warrants it.
 - Mobile rate is capped lower.
 - Use .Enabled = false to pause (existing particles continue until they die or you call :Clear()).
 - Many simultaneous high-rate/large/transparent emitters will cause the engine to throttle or drop effects on low-end clients.

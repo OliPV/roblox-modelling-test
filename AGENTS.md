@@ -46,9 +46,14 @@
 - Use the strongest available reasoning for demanding modelling, rigging and world/visual builds;
   routine transforms and simple Parts do not require it.
 - Change models/effort only through actual available controls; never claim an unperformed change.
-- Use parallel agents for independent implementation or review when it shortens delivery;
-  size the team to useful work and available capacity. Give each a bounded deliverable
-  and separate writes; the main agent integrates and verifies.
+- Default to parallel agents for independent work when it materially shortens delivery
+  with equal quality and similar or only slightly higher expected total cost.
+- Size the team to useful work, the actual provider/session limit and local CPU/RAM;
+  queue additional tasks in waves. Count coordination and integration in the estimate.
+- Give each agent a bounded deliverable, minimal relevant context and separate files;
+  choose model/effort for the task and return concise results to limit overhead.
+- Share interfaces and art/export contracts before dispatch. Keep dependent work and
+  shared Studio/GUI changes coordinated; the main agent integrates and verifies.
 
 ## Engineering and boundaries
 - Use maintainable Luau, server authority, responsive controls, intentional presentation,

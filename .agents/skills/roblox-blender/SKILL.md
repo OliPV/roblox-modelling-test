@@ -5,40 +5,53 @@ description: "Create, edit, rig, animate or import custom Blender models for Rob
 
 # Blender models and animations
 
-Blender is the preferred tool for substantial custom 3D models, rigging and animations.
-Use simple Roblox Parts or Studio tools when appropriate; choose Blender for work that
-benefits from custom modelling, rigging or animation.
-
-For AI-first/shared/developer-led work and creative approvals, use
+Prefer Blender for substantial custom modelling, rigging and animation. Use simple
+Roblox Parts or Studio tools where they fit the asset.
+For creative ownership and approvals, use
 [roblox-collaboration](../roblox-collaboration/SKILL.md).
 
-When art direction is uncertain, propose one representative asset before batch production
-as an experiment in the feature approval, including its purpose, review checkpoint and
-pending variants. Complete and inspect that asset at the intended in-game light and scale
-before making variants. Reuse suitable project materials, rigs and components, and batch
-related exports/imports. Continue variants and polish within the approved art direction.
+When art direction is uncertain, include one representative asset as an experiment
+in feature approval: purpose, review checkpoint and pending variants. Inspect it at
+the intended in-game light and scale before batch production. Reuse suitable project
+materials, rigs and components; continue polish within the approved art direction.
 
-Keep the .blend file as the editable source of truth, including rigs and animation actions.
-Preserve an original/version before edits. Keep editable sources separate from export copies.
-Help diagnose modelling, shading, UV, texture, rigging, weight-painting and animation issues
-without making them responsible for technical troubleshooting.
+Keep the .blend file as the editable source of truth, including rigs and actions.
+Preserve a version before edits and keep editable sources separate from export copies.
+For scripted authoring or export, use an isolated background Blender process on
+versioned source/export copies, preserving the developer's open GUI document.
+Diagnose modelling, shading, UV, texture, rigging and animation issues yourself.
 
-Use Blender's scripting API or available screen control after checking the installed version
-and actual capabilities. Blender MCP is optional. Do not claim integration is configured or
-working until tested. Install or connect tools only when needed for an actual requested task.
+Check installed Blender capabilities before using its scripting API or screen control.
+Blender MCP is optional; configure tools only when a requested task needs them and
+verify the connection before reporting it ready. Reuse reviewed export helpers and
+settings across related assets; batch compatible exports and imports.
+
+For parallel asset work, apply the project's delegation/cost guidance and check actual
+agent capacity and local CPU/RAM headroom. Assign independent meaningful assets with
+separate files and Blender processes, sharing approved style, palette and export
+contract. The main agent coordinates the shared GUI and final Studio integration.
 
 Choose the Roblox movement/animation system before finalizing an animated model;
-shape its rig and proportions around that integration. Author pivots, contact/seat
-points, simple colliders and required doorway clearances alongside visible geometry.
-For Roblox integration, check scale/orientation, normals, topology, UVs/textures,
-materials, performance, rig compatibility, skinning and animation export/import.
-Export a currently supported format and inspect the import in Studio. Some Blender features
-need baking or conversion; preserve the editable original and prepare a suitable export copy.
-Imported meshes/scenes remain Studio-owned, outside Rojo's code folders.
-Verify appearance, movement and relevant runtime behavior in Roblox before calling work ready.
+shape its rig and proportions around that integration. Define model identity, scale,
+facing, pivot and applicable rig/bone, seat, muzzle/contact and collider metadata
+once alongside the asset; consume it during integration. Author required
+doorway clearances with the geometry. Use existing locators, properties or asset
+metadata where suitable rather than duplicating values across preparation scripts.
 
-Use the strongest available reasoning for demanding modelling, rigging and animation;
-routine edits need less. Follow project QA and model-change honesty rules.
+Check scale/orientation, normals, topology, UVs/textures, materials, performance,
+rig compatibility, skinning and animation export/import. Choose a currently supported
+format for the asset. Bake or convert unsupported features in an export copy while
+preserving the editable original. Save and reuse separate Studio import presets for
+static and skinned assets where supported; verify textures, mesh separation and rig
+hierarchy after import. Imported meshes/scenes remain Studio-owned outside Rojo folders.
+
+Validate the candidate import before replacing known assets. Back up affected content
+and reimport only the changed asset, preserving gameplay anchors, placements and
+integration settings. Check consumed metadata and affected interactions after replacement.
+Inspect appearance at intended light/scale and exercise movement and relevant runtime
+behavior in Roblox before calling work ready. Record unavailable Studio checks as
+UNVERIFIED. Follow project QA and model-change honesty rules; use strongest available
+reasoning for demanding modelling, rigging and animation, less for routine edits.
 
 Official workflow: https://create.roblox.com/docs/art/blender
 Importer: https://create.roblox.com/docs/studio/importer

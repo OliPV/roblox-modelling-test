@@ -104,13 +104,13 @@
   },
   "localPatch": {
     "path": "docs/roblox-suite-local.patch",
-    "sha256": "82050403607a0c10b2e9c72f53b35686d2717302efc25e8e71c81bd5e1673153",
+    "sha256": "88753a10de0b6956d2d21fd7be92af051fc56791e7ad3b1d268d69657eecd6e2",
     "files": {
       "roblox-animation/SKILL.md": "17708cf79c326fb840456030801281fb083ed72e04ff066c68a32705ad33eefe",
       "roblox-core/SKILL.md": "bf4bb5ec21d3054cb60b4696a1aaca212032e360eb13e761735709ba0b854766",
       "roblox-npcs/SKILL.md": "df73db87efd917b1cd9b924e2d50df81ffd5f58b2b956ef957ea48aabe8e5474",
       "roblox-user-interfaces/SKILL.md": "606f604c32c7c6d3e2e756831788bac46f4e54ed533ed76660c11baf9649eece",
-      "roblox-vfx/SKILL.md": "9a411e7089aed305f6c02f28c30823af3c0f5e65f71462559c553ec6100b4f2d",
+      "roblox-vfx/SKILL.md": "03daf22c28bef1493f3d3296051bbfcf866a40a6719dddca3eed89fc79568a51",
       "roblox/SKILL.md": "bb8e4e732c2980040289727a561ca0cfcf3034fd938b316f48f05400c355a47a",
       "roblox-testing/SKILL.md": "87a90307ba723ddfd7824b3c7f514dd1c731ffcfdb142b2259843e0b592d9130"
     }

@@ -130,15 +130,17 @@ index 4c40e66..a0c7d90 100644
 
 
 diff --git a/.agents/skills/roblox-vfx/SKILL.md b/.agents/skills/roblox-vfx/SKILL.md
-index f372e0b..f0b6d86 100644
+index f372e0b..28776f3 100644
 --- a/.agents/skills/roblox-vfx/SKILL.md
 +++ b/.agents/skills/roblox-vfx/SKILL.md
-@@ -1,17 +1,26 @@
+@@ -1,17 +1,39 @@
  ---
  name: roblox-vfx
 -description: "Build or optimize Roblox particles, beams, trails, and highlights. Use for emitter shapes, flipbooks, one-shot bursts, animation-marker effects, distance culling, and overdraw."
-+description: "Build or tune Roblox lighting, skies, atmosphere, particles, beams, trails and highlights. Use for world mood, day/night presentation, timed effects, culling and overdraw."
- last_reviewed: 2026-06-17
+-last_reviewed: 2026-06-17
++description: "Build or tune Roblox lighting, skies, atmosphere, particles, beams, trails and highlights. Use for world mood, reusable effect packs, timed effects, culling and overdraw."
++metadata:
++  last_reviewed: 2026-06-17
  ---
 
  # roblox-vfx
@@ -151,6 +153,18 @@ index f372e0b..f0b6d86 100644
 
  For marker-triggered bursts, read [roblox-animation](../roblox-animation/SKILL.md). For UI particles, read [roblox-user-interfaces](../roblox-user-interfaces/SKILL.md); ParticleEmitters do not render inside ViewportFrame.
 
++## Discover and reuse effect packs
++
++1. Reuse suitable project effects first. When a pack adds value, find a small free kit matching the art direction through official tutorials or the original creator's listing. Confirm authorship and reuse terms; ratings, badges and availability fields are supporting metadata, not proof of rights or safety.
++2. Inspect a pinned snapshot with every returned root detached (`Parent = nil`) before insertion or Play. Inventory roots and all descendants, including `LuaSourceContainer`, `PackageLink`, external asset IDs and unexpected services or objects. Read script sources for asset-based `require`, HTTP/loaders and obfuscation as audit data; never execute downloaded code.
++3. Extract an explicit allowlist of native visual instances into fresh project-owned presets: emitters, beams, trails, attachments and needed lights/support parts. Copy reviewed properties and rebuild internal references. Keep scripts, package links and unrelated objects out of the extracted hierarchy; re-audit its full tree before parenting it into the game.
++4. Record the original listing/creator, snapshot version or file hash, selected instance paths, texture/mesh/audio IDs, reuse terms and modifications in project asset documentation. Pin presets locally and review deliberate updates against this record.
++5. Check only selected dependencies with `ContentProvider:PreloadAsync` on their actual instances and record each callback status. Verify experience-owner permissions separately; Studio loading alone does not establish published-client access. Prefer a known accessible fallback when a dependency fails.
++6. Adapt color, scale, lifetime, rate and motion to the scene. Use finite `Rate = 0` bursts with cleanup for events and sparse nearby emitters for ambience. Preserve day/night readability, existing gameplay/purchase contracts and local culling/quality budgets.
++7. Show a representative in-world day/night sample at an agreed review checkpoint before broad rollout. Reuse existing approval when it covers the sample and rollout; verify visual fit, cleanup, distance culling and relevant multiplayer timing. Label pending owner-permission and device/performance checks UNVERIFIED.
++
++Official references: [asset permissions](https://create.roblox.com/docs/projects/assets/privacy), [packages](https://create.roblox.com/docs/projects/assets/packages), [ContentProvider](https://create.roblox.com/docs/reference/engine/classes/ContentProvider).
++
 +## Lighting, sky and atmosphere
 +
 +- Compose `Lighting` time, ambient light, exposure and `LightingStyle` with the art direction.
@@ -163,7 +177,7 @@ index f372e0b..f0b6d86 100644
  ## Core creation and parenting
 
  - Parent ParticleEmitter to a BasePart (emission fills bounds or chosen EmissionDirection face) **or** (strongly preferred for control) to an Attachment.
-@@ -61,7 +70,7 @@ Prepare a grid sheet (2x2, 4x4, 8x8, Custom) with transparent spacing between fr
+@@ -61,7 +83,7 @@ Prepare a grid sheet (2x2, 4x4, 8x8, Custom) with transparent spacing between fr
 
  - Fill rate (pixels covered by overlapping transparent layers) and overdraw are the main GPU costs.
  - Rate × Size × average opacity × how many overlap on screen = cost.
@@ -172,9 +186,12 @@ index f372e0b..f0b6d86 100644
  - Mobile rate is capped lower.
  - Use .Enabled = false to pause (existing particles continue until they die or you call :Clear()).
  - Many simultaneous high-rate/large/transparent emitters will cause the engine to throttle or drop effects on low-end clients.
-@@ -83,13 +92,13 @@ Prepare a grid sheet (2x2, 4x4, 8x8, Custom) with transparent spacing between fr
+@@ -81,15 +103,15 @@ Prepare a grid sheet (2x2, 4x4, 8x8, Custom) with transparent spacing between fr
 
- - Call `ContentProvider:PreloadAsync({texture})` for flipbook atlases and prominent effect textures before they are needed (e.g., during loading screens or before a combat sequence). This prevents mid-burst pop-in on lower-end devices.
+ ## Preloading textures
+
+-- Call `ContentProvider:PreloadAsync({texture})` for flipbook atlases and prominent effect textures before they are needed (e.g., during loading screens or before a combat sequence). This prevents mid-burst pop-in on lower-end devices.
++- Preload selected emitter/beam/trail instances with `ContentProvider:PreloadAsync` before prominent effects are needed; inspect callback statuses and provide a fallback for failed dependencies. This reduces mid-burst pop-in without loading an entire pack.
 
 -## Patterns
 +## Effect selection and timing
@@ -192,7 +209,7 @@ index f372e0b..f0b6d86 100644
 
  See the references/ folder (particle-emitter-properties.md, shapes-flipbooks-and-advanced.md) for the exhaustive property reference, visual examples, optimization checklists, and concrete code for common effects (integration covered in SKILL and cross-skill notes).
 
-@@ -98,7 +107,7 @@ See the references/ folder (particle-emitter-properties.md, shapes-flipbooks-and
+@@ -98,7 +120,7 @@ See the references/ folder (particle-emitter-properties.md, shapes-flipbooks-and
  - Beam: textured ribbon between two Attachments (lasers, energy, ropes). Key properties: `Texture`, `TextureMode`/`TextureLength`/`TextureSpeed`, `Color`, `Transparency` (NumberSequence along the beam), `Width0`/`Width1`, `CurveSize0`/`CurveSize1`, `FaceCamera`, `LightEmission`, `LightInfluence`, `ZOffset`.
  - Trail: ribbon left behind two Attachments as their parent part moves (sword trails, projectile paths, after-images). Key properties: `Color`, `Transparency`, `Texture`, `TextureMode`, `TextureLength`, `MinLength`, `MaxLength`, `WidthScale`, `LightEmission`, `LightInfluence`, `FaceCamera`, `Lifetime`.
  - Highlight: cheap, effective outlines (selection, targeting, "powered up"). Has both an outline and a solid interior fill (`FillColor`/`FillTransparency`, `OutlineColor`/`OutlineTransparency`). `DepthMode` controls whether the highlight is visible through walls (`AlwaysOnTop`) or only when not occluded (`Occluded`). There is a client-side cap of 255 simultaneous `Highlight` instances (disabled instances still count toward the cap).

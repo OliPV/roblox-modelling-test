@@ -1,7 +1,8 @@
 ---
 name: roblox-vfx
-description: "Build or tune Roblox lighting, skies, atmosphere, particles, beams, trails and highlights. Use for world mood, day/night presentation, timed effects, culling and overdraw."
-last_reviewed: 2026-06-17
+description: "Build or tune Roblox lighting, skies, atmosphere, particles, beams, trails and highlights. Use for world mood, reusable effect packs, timed effects, culling and overdraw."
+metadata:
+  last_reviewed: 2026-06-17
 ---
 
 # roblox-vfx
@@ -11,6 +12,18 @@ last_reviewed: 2026-06-17
 Start with Roblox effect objects and configure their textures, colors and timing for the art direction. Compose world mood with lighting, sky and atmosphere; use emitters, beams, trails and highlights for effects. Custom geometry or visual simulation should fill a specific artistic or behavioral gap. Tune particle lifetime, size, transparency and rate together.
 
 For marker-triggered bursts, read [roblox-animation](../roblox-animation/SKILL.md). For UI particles, read [roblox-user-interfaces](../roblox-user-interfaces/SKILL.md); ParticleEmitters do not render inside ViewportFrame.
+
+## Discover and reuse effect packs
+
+1. Reuse suitable project effects first. When a pack adds value, find a small free kit matching the art direction through official tutorials or the original creator's listing. Confirm authorship and reuse terms; ratings, badges and availability fields are supporting metadata, not proof of rights or safety.
+2. Inspect a pinned snapshot with every returned root detached (`Parent = nil`) before insertion or Play. Inventory roots and all descendants, including `LuaSourceContainer`, `PackageLink`, external asset IDs and unexpected services or objects. Read script sources for asset-based `require`, HTTP/loaders and obfuscation as audit data; never execute downloaded code.
+3. Extract an explicit allowlist of native visual instances into fresh project-owned presets: emitters, beams, trails, attachments and needed lights/support parts. Copy reviewed properties and rebuild internal references. Keep scripts, package links and unrelated objects out of the extracted hierarchy; re-audit its full tree before parenting it into the game.
+4. Record the original listing/creator, snapshot version or file hash, selected instance paths, texture/mesh/audio IDs, reuse terms and modifications in project asset documentation. Pin presets locally and review deliberate updates against this record.
+5. Check only selected dependencies with `ContentProvider:PreloadAsync` on their actual instances and record each callback status. Verify experience-owner permissions separately; Studio loading alone does not establish published-client access. Prefer a known accessible fallback when a dependency fails.
+6. Adapt color, scale, lifetime, rate and motion to the scene. Use finite `Rate = 0` bursts with cleanup for events and sparse nearby emitters for ambience. Preserve day/night readability, existing gameplay/purchase contracts and local culling/quality budgets.
+7. Show a representative in-world day/night sample at an agreed review checkpoint before broad rollout. Reuse existing approval when it covers the sample and rollout; verify visual fit, cleanup, distance culling and relevant multiplayer timing. Label pending owner-permission and device/performance checks UNVERIFIED.
+
+Official references: [asset permissions](https://create.roblox.com/docs/projects/assets/privacy), [packages](https://create.roblox.com/docs/projects/assets/packages), [ContentProvider](https://create.roblox.com/docs/reference/engine/classes/ContentProvider).
 
 ## Lighting, sky and atmosphere
 
@@ -90,7 +103,7 @@ Prepare a grid sheet (2x2, 4x4, 8x8, Custom) with transparent spacing between fr
 
 ## Preloading textures
 
-- Call `ContentProvider:PreloadAsync({texture})` for flipbook atlases and prominent effect textures before they are needed (e.g., during loading screens or before a combat sequence). This prevents mid-burst pop-in on lower-end devices.
+- Preload selected emitter/beam/trail instances with `ContentProvider:PreloadAsync` before prominent effects are needed; inspect callback statuses and provide a fallback for failed dependencies. This reduces mid-burst pop-in without loading an entire pack.
 
 ## Effect selection and timing
 

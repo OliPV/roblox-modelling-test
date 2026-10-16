@@ -17,9 +17,9 @@ Use recorded preferences in `context/WORKING_STYLE.md` to adapt collaboration. R
 
 Before substantial builds, establish the fantasy, player actions, goal, mood, multiplayer needs and first meaningful playable milestone through conversation. Resolve important uncertainties one at a time and reuse answered questions.
 
-Gather ideas into one coherent update. Ask "Anything else?" before review. Summarize the complete bundle in short bullets and ask for a yes or no. Begin implementation after an explicit yes. A no means revise the bundle and present it again.
+Gather ideas into one coherent update. Ask "Anything else?" before review. Summarize the complete bundle in short bullets and ask for a yes or no. When proposing a mobile-ready foundation with full device QA deferred until release preparation, or a representative visual sample before batch production, identify that approach as experimental/provisional in the summary. Explain its purpose, review checkpoint and pending work so the developer can accept or decline it before implementation. Begin implementation after an explicit yes. A no means revise the bundle and present it again.
 
-Approval covers routine technical choices, polish, debugging and verification. Put additional scope into the next bundle or obtain approval for a revised summary. Requested bug fixes proceed within their authorized scope; clarify only what is needed to reproduce them.
+Approval covers routine technical choices, polish within the approved art direction, debugging and verification. Continue small iterations within this bundle; the experimentation disclosure above applies to device-support staging and visual sampling. Put additional scope into the next bundle or obtain approval for a revised summary. Requested bug fixes proceed within their authorized scope; clarify only what is needed to reproduce them.
 
 ## Creator ownership
 

@@ -6,7 +6,7 @@ last_reviewed: 2026-06-17
 
 # roblox-user-interfaces
 
-Choose a GUI container for the display surface, then use layouts and constraints to handle screen sizes. For particles inside a ScreenGui, use 2D UI objects; ParticleEmitter does not render there.
+Choose the interaction before its presentation: `ProximityPrompt` for nearby actions, `ClickDetector` for object selection, and drag detectors for direct manipulation. Configure the built-in behavior first; use a custom menu when the requested choices need one. Then choose a GUI container, layouts and constraints for its display surface. For particles inside a ScreenGui, use 2D UI objects; ParticleEmitter does not render there.
 
 **Primary sources:**
 - https://create.roblox.com/docs/en-us/ui
@@ -77,9 +77,9 @@ See references/gui-containers.md for exhaustive property tables, common hierarch
 - MouseButton1Click / MouseButton1Down etc. still exist but are less ideal for cross-platform.
 - TextBox has FocusLost, Focused, ReturnPressedFromOnScreenKeyboard, etc.
 - Newer: UI drag detectors (2D) and 3D drag detectors for sliders, spinners, draggable objects, doors, etc.
-- ProximityPrompt for 3D world "press E to interact" style prompts (separate but often paired with UI).
+- ProximityPrompt supplies nearby activation and device-appropriate input cues; retain that behavior when customizing its appearance. Give each action one primary interaction surface, with consistent keyboard/touch/gamepad access.
 
-Control default Roblox UI with `StarterGui:SetCoreGuiEnabled(Enum.CoreGuiType.PlayerList, false)` etc. Hide virtual controls with `GuiService.TouchControlsEnabled = false` when you provide custom input.
+Keep default Roblox movement, camera and touch controls as the baseline. Use `StarterGui:SetCoreGuiEnabled` or `GuiService.TouchControlsEnabled` when an intentional replacement covers their relevant behavior.
 
 ## Particle effects in UI
 
@@ -91,11 +91,13 @@ Direct ParticleEmitter lives in the 3D world (parent to Part or Attachment). For
 4. **UIStroke + UIGradient animated**. Energy borders, charging effects, animated lines.
 5. **Text + MaxVisibleGraphemes** combined with small image "particles" for fancy dialogue or title sequences.
 
-Performance reality: Transparent overdraw and fill-rate are the enemy on mobile. Keep concurrent UI "particles" low, reuse instances aggressively, use smaller textures, and test at low graphics quality.
+Performance reality: Transparent overdraw and fill-rate are the enemy on mobile. Keep concurrent UI "particles" low, reuse instances aggressively and use smaller textures. Check low graphics quality before release or earlier when density or observed frame time warrants it.
 
 See the dedicated references/particles-in-ui.md for concrete pool implementations, ViewportFrame setup patterns, integration with 3D markers, and performance guardrails.
 
 ## Responsive layouts
+
+Build flexible layouts and cross-device activation from the start. During iteration, spot-check major layout/input changes; complete target-device sizes, orientations and physical-input coverage before release.
 
 - Design in a canonical resolution/aspect (e.g. 1920x1080 or a common mobile one) but implement everything in scale + constraints.
 - Use UIListLayout + AutomaticSize + Padding for rows/columns instead of manually calculating positions.
@@ -118,7 +120,7 @@ See the dedicated references/particles-in-ui.md for concrete pool implementation
 **Particles / VFX in UI:**
 - [ ] Instance pooling / recycling.
 - [ ] Limited concurrent count.
-- [ ] Tested at lowest graphics quality.
+- [ ] Changed effects inspected during iteration; low-graphics/device coverage completed before release.
 - [ ] Tied to meaningful gameplay moments (via markers from the animation skill or UI events).
 
 

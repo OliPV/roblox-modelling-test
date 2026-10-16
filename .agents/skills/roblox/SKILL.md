@@ -24,7 +24,7 @@ Choose the skill matching the task. Each specialist links to its own detailed re
 - [roblox-datastores](../roblox-datastores/SKILL.md): Save player data, handle concurrent writes, and recover versions
 - [roblox-user-interfaces](../roblox-user-interfaces/SKILL.md): Build responsive GUIs, handle input, and add UI effects
 - [roblox-animation](../roblox-animation/SKILL.md): Animate rigs, configure IK, tween properties, and time marker events
-- [roblox-vfx](../roblox-vfx/SKILL.md): Build particles, flipbooks, beams, trails, and highlights
+- [roblox-vfx](../roblox-vfx/SKILL.md): Tune lighting, sky and atmosphere; build particles, beams, trails and highlights
 - [roblox-audio](../roblox-audio/SKILL.md): Build audio graphs, mix effects, and migrate legacy Sound code
 - [roblox-gamepasses](../roblox-gamepasses/SKILL.md): Handle passes, products, subscriptions, transfers, and purchase policy
 - [roblox-open-cloud](../roblox-open-cloud/SKILL.md): Automate Roblox resources through REST APIs or supported HttpService calls
@@ -42,9 +42,9 @@ Choose the skill matching the task. Each specialist links to its own detailed re
 2. **Everything that talks to the cloud is fallible.** Wrap DataStore, Marketplace, Http, etc. calls in pcall. Have a plan for transient vs permanent errors.
 3. **Preload assets.** ContentProvider:PreloadAsync for animations, images, sounds, models.
 4. **Use modern APIs.** Animator + LoadAnimation, task.* scheduler, TweenService, IKControl, CollectionService tags, Attributes, etc. Avoid deprecated BodyMovers, wait/spawn/delay, Humanoid:LoadAnimation, etc.
-5. **Respect limits.** DataStore budgets scale with concurrent users but are still finite. Particles and transparent UI are fill-rate expensive. Profile early.
+5. **Respect limits.** DataStore budgets scale with concurrent users but are still finite. Particles and transparent UI are fill-rate expensive. Profile when scale, density or observed frame time warrants it.
 6. **Structure for maintainability.** ServerScriptService for authority, ReplicatedStorage for shared modules, StarterGui for client UI roots, clear module boundaries, consistent naming.
-7. **Test the hard parts.** Studio with API access only on test places. Multiple device classes. Low graphics quality for effects/UI. Concurrency (multiple servers touching the same keys).
+7. **Verify by phase and risk.** Exercise changed behavior and affected integrations; check multiplayer and data safety when touched. Complete broad device, graphics-quality and concurrency checks before release; see roblox-testing.
 
 ## Modern API notes
 
@@ -58,10 +58,12 @@ Choose the skill matching the task. Each specialist links to its own detailed re
 
 ## Workflow
 
-1. Load the specialist that owns the task. For broad architecture work, also read [architecture-principles.md](references/architecture-principles.md).
-2. Follow that specialist's reference links for the feature or failure you are handling. For systems that interact, read [cross-skill-integration.md](references/cross-skill-integration.md).
-3. Adapt script examples to the project and check their maturity labels. Validate changes in a dedicated test experience.
-4. Before handing off, report which checks passed, which need Roblox integration, and any unresolved API or policy questions. Check uncertain behavior against the official sources above.
+1. Start with supported Roblox systems and familiar player controls. Configure or extend them to fit the requested experience; custom code should cover a specific remaining gap. State that gap briefly when choosing a replacement.
+2. Reuse suitable project components, materials and effects; batch related edits, exports/imports and checks through supported APIs or scripts.
+3. Load the specialist that owns the task. For broad architecture work, also read [architecture-principles.md](references/architecture-principles.md).
+4. Follow that specialist's reference links for the feature or failure you are handling. For systems that interact, read [cross-skill-integration.md](references/cross-skill-integration.md).
+5. Adapt script examples to the project and check their maturity labels. Run runtime checks in the working Studio session; use an isolated test experience for cloud or persistent-data checks.
+6. Before handing off, report which checks passed, which need Roblox integration, and any unresolved API or policy questions. Check uncertain behavior against the official sources above.
 
 <!-- catalog:references:start -->
 ## Reference index

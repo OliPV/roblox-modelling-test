@@ -40,15 +40,22 @@
 - Use available computer control for QA when needed, following the installed tool's instructions.
 
 ## Models and delegation
-- Respect the developer's selected model and use the provider's available controls.
-- Use a capable default; increase available reasoning for difficult debugging, architecture,
-  networking, persistence, security, monetization and substantial refactoring.
-- Use the strongest available reasoning for demanding modelling, rigging and world/visual builds;
-  routine transforms and simple Parts do not require it.
-- Change models/effort only through actual available controls; never claim an unperformed change.
-- Delegate only separable work when permitted and useful, normally at most two subagents.
-- Keep writes separate; the main agent integrates and verifies. No context-only delegation
-  or custom routing infrastructure. Quality takes precedence over token savings.
+- Respect the developer's selected main model. The main agent defines outcomes and
+  interfaces, coordinates agents and shared resources, reviews evidence and reports results.
+- Parallelize independent reading, research, review and tests when useful. Size the team
+  to the work, available agent slots and local resources, without a fixed agent count.
+- Appoint one writing owner at a time for the shared checkout and Studio scene. Give
+  that agent a precise scope, acceptance criteria and responsibility for integration.
+  Other agents can inspect and test while the writer works.
+- Prefer a fast, cost-efficient model for clear, bounded writing and routine work:
+  GPT-6 Luna, Claude Sonnet, Claude Haiku or Google Gemini Flash are examples when available through
+  the current provider. Use stronger reasoning for ambiguous debugging, architecture,
+  networking, persistence, security, monetization and demanding visual creation.
+- Assign testers distinct scenarios and one owner per Studio/GUI instance. Isolate test
+  data; collect pass/fail results, console output, screenshots and reproduction steps.
+  The main agent reviews this evidence and spot-checks material risks.
+- Judge speed and cost by the completed result, including coordination, retries and
+  corrections. Change models/effort only through available controls.
 
 ## Engineering and boundaries
 - Use maintainable Luau, server authority, responsive controls, intentional presentation,
@@ -64,10 +71,13 @@
   private assets/context by accident. See `.gitignore` and `docs/SETUP.md`.
 
 ## Done means tested
-- Run formatting/static checks, then run the game and exercise the changed player experience.
+- Run relevant formatting/static checks and exercise changed behavior plus affected paths.
+  Broaden checks at milestones, before release, or when shared systems change.
 - Read console output; capture and look at useful views. Fix and re-test failures.
-- Significant UI needs relevant device sizes/input. Multiplayer needs client/server or
-  multi-client checks; solo play and compilation alone are insufficient evidence.
+- Build cross-device input and flexible layouts from the start; spot-check major UI/input
+  changes during development. Complete device/controller/low-end QA before release.
+- Check multiplayer when ownership, replication or shared state changes; use client/server
+  or multi-client checks appropriate to the behavior.
 - VERIFIED means runtime behavior exercised and visual work visually inspected.
 - If Studio is unavailable, label pending runtime work UNVERIFIED; record checks, never invent evidence.
 - Bug reports are evidence: reproduce, inspect, fix the cause, re-test the exact scenario and

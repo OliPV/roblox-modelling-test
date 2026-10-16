@@ -40,20 +40,22 @@
 - Use available computer control for QA when needed, following the installed tool's instructions.
 
 ## Models and delegation
-- Respect the developer's selected model and use the provider's available controls.
-- Use a capable default; increase available reasoning for difficult debugging, architecture,
-  networking, persistence, security, monetization and substantial refactoring.
-- Use the strongest available reasoning for demanding modelling, rigging and world/visual builds;
-  routine transforms and simple Parts do not require it.
-- Change models/effort only through actual available controls; never claim an unperformed change.
-- Default to parallel agents for independent work when it materially shortens delivery
-  with equal quality and similar or only slightly higher expected total cost.
-- Size the team to useful work, the actual provider/session limit and local CPU/RAM;
-  queue additional tasks in waves. Count coordination and integration in the estimate.
-- Give each agent a bounded deliverable, minimal relevant context and separate files;
-  choose model/effort for the task and return concise results to limit overhead.
-- Share interfaces and art/export contracts before dispatch. Keep dependent work and
-  shared Studio/GUI changes coordinated; the main agent integrates and verifies.
+- Respect the developer's selected main model. The main agent defines outcomes and
+  interfaces, coordinates agents and shared resources, reviews evidence and reports results.
+- Parallelize independent reading, research, review and tests when useful. Size the team
+  to the work, available agent slots and local resources, without a fixed agent count.
+- Appoint one writing owner at a time for the shared checkout and Studio scene. Give
+  that agent a precise scope, acceptance criteria and responsibility for integration.
+  Other agents can inspect and test while the writer works.
+- Prefer a fast, cost-efficient model for clear, bounded writing and routine work:
+  GPT-6 Luna, Claude Sonnet or Google Gemini Flash are examples when available through
+  the current provider. Use stronger reasoning for ambiguous debugging, architecture,
+  networking, persistence, security, monetization and demanding visual creation.
+- Assign testers distinct scenarios and one owner per Studio/GUI instance. Isolate test
+  data; collect pass/fail results, console output, screenshots and reproduction steps.
+  The main agent reviews this evidence and spot-checks material risks.
+- Judge speed and cost by the completed result, including coordination, retries and
+  corrections. Change models/effort only through available controls.
 
 ## Engineering and boundaries
 - Use maintainable Luau, server authority, responsive controls, intentional presentation,

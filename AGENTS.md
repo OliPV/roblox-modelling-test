@@ -48,7 +48,7 @@
   that agent a precise scope, acceptance criteria and responsibility for integration.
   Other agents can inspect and test while the writer works.
 - Prefer a fast, cost-efficient model for clear, bounded writing and routine work:
-  GPT-6 Luna, Claude Sonnet or Google Gemini Flash are examples when available through
+  GPT-6 Luna, Claude Sonnet, Claude Haiku or Google Gemini Flash are examples when available through
   the current provider. Use stronger reasoning for ambiguous debugging, architecture,
   networking, persistence, security, monetization and demanding visual creation.
 - Assign testers distinct scenarios and one owner per Studio/GUI instance. Isolate test

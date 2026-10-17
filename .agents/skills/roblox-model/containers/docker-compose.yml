@@ -1,0 +1,24 @@
+services:
+  # Windows (NVIDIA GPU via WSL2 Docker Desktop):
+  #   docker compose -f .agents/skills/roblox-model/containers/docker-compose.yml --profile cuda up -d --build
+  roblox-model-cuda:
+    profiles: ["cuda"]
+    build:
+      context: .
+      dockerfile: Dockerfile.cuda
+    image: roblox-model-server:cuda
+    container_name: roblox-model-cuda
+    ports:
+      - "127.0.0.1:8085:8085"
+    volumes:
+      - ../../../../work:/workspace/work
+      - ../../../../assets:/workspace/assets
+      - ../../../../.tools/roblox-model/hf-cache:/root/.cache/huggingface
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [gpu]
+    restart: unless-stopped

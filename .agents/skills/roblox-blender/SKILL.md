@@ -10,7 +10,8 @@ Use simple Roblox Parts or Studio tools when appropriate; choose Blender for wor
 benefits from custom modelling, rigging or animation.
 
 For AI-first/shared/developer-led work and creative approvals, use
-[roblox-collaboration](../roblox-collaboration/SKILL.md).
+[roblox-collaboration](../roblox-collaboration/SKILL.md). For converting reference images into
+3D meshes, rigs and animations with local AI models, use [roblox-model](../roblox-model/SKILL.md).
 
 Keep the .blend file as the editable source of truth, including rigs and animation actions.
 Preserve an original/version before edits. Keep editable sources separate from export copies.

@@ -9,6 +9,16 @@
     "roblox-horse/scripts/client/HorseClient.client.luau",
     "roblox-horse/scripts/server/HorseServer.server.luau",
     "roblox-horse/scripts/shared/Horse/HorseConfig.luau",
-    "roblox-horse/scripts/shared/Horse/HorseModel.luau"
+    "roblox-horse/scripts/shared/Horse/HorseModel.luau",
+    "roblox-model/SKILL.md",
+    "roblox-model/containers/Dockerfile.cuda",
+    "roblox-model/containers/docker-compose.yml",
+    "roblox-model/containers/server.py",
+    "roblox-model/references/models.md",
+    "roblox-model/references/pipeline-and-import.md",
+    "roblox-model/references/setup.md",
+    "roblox-model/scripts/blender_process.py",
+    "roblox-model/scripts/blender_rig_and_animate.py",
+    "roblox-model/scripts/run_pipeline.py"
   ]
 }

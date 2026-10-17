@@ -24,13 +24,20 @@ function Get-SkillHashes([string]$Root) {
 $lock = Get-Content -LiteralPath $lockPath -Raw | ConvertFrom-Json -AsHashtable
 $currentHashes = Get-SkillHashes $skillsRoot
 if ($currentHashes.Count -ne $lock.files.Count) { throw 'Local skill files changed; update stopped to preserve edits.' }
+if ($lock.localPatch) {
+    $patchPath = Join-Path $projectRoot $lock.localPatch.path
+    if ((Get-FileHash -LiteralPath $patchPath -Algorithm SHA256).Hash.ToLowerInvariant() -ne $lock.localPatch.sha256) {
+        throw 'Local skill patch changed; review its provenance before updating.'
+    }
+}
 foreach ($key in $currentHashes.Keys) {
-    if ($currentHashes[$key] -ne $lock.files[$key]) { throw "Local edit detected: $key. Update stopped to preserve edits." }
+    $expected = if ($lock.localPatch -and $lock.localPatch.files.Contains($key)) { $lock.localPatch.files[$key] } else { $lock.files[$key] }
+    if ($currentHashes[$key] -ne $expected) { throw "Local edit detected: $key. Update stopped to preserve edits." }
 }
 & (Join-Path $PSScriptRoot 'sync-claude-skills.ps1') -Check
 $commit = Invoke-RestMethod 'https://api.github.com/repos/nonlooped/roblox-suite/commits/main'
 if ($commit.sha -eq $lock.revision) {
-    Write-Output "Roblox Suite is current ($($lock.revision)); all 16 installed skills match the recorded hashes."
+    Write-Output "Roblox Suite is current ($($lock.revision)); all 16 installed skills match the recorded upstream/local hashes."
     return
 }
 $stage = Join-Path $projectRoot ('work/skill-update-' + [guid]::NewGuid().ToString('N'))
@@ -45,6 +52,17 @@ foreach ($name in $skillNames) {
     if ($entry -notmatch '(?m)^name:\s*' -or $entry -notmatch '(?m)^description:\s*') {
         throw "Invalid skill entry: $name. Existing installation preserved."
     }
+}
+if ($lock.localPatch) {
+    # Apply inside the staged archive even when it lives inside another checkout.
+    $previousCeiling = $env:GIT_CEILING_DIRECTORIES
+    try {
+        $env:GIT_CEILING_DIRECTORIES = Split-Path $sourceRoot -Parent
+        & git -C $sourceRoot apply --no-index -p3 $patchPath
+        $patchExitCode = $LASTEXITCODE
+    } finally { $env:GIT_CEILING_DIRECTORIES = $previousCeiling }
+    if ($patchExitCode -ne 0) { throw 'Local skill patch needs rebasing; existing installation preserved.' }
+    $patchedHashes = Get-SkillHashes $sourceRoot
 }
 $backup = Join-Path $stage 'previous'
 New-Item -ItemType Directory -Path $backup | Out-Null
@@ -63,6 +81,9 @@ try {
     $lock.revision = $commit.sha
     $lock.updated = (Get-Date).ToUniversalTime().ToString('o')
     $lock.files = $stagedHashes
+    if ($lock.localPatch) {
+        foreach ($key in @($lock.localPatch.files.Keys)) { $lock.localPatch.files[$key] = $patchedHashes[$key] }
+    }
     $lock | ConvertTo-Json -Depth 5 | Set-Content -LiteralPath $lockPath -Encoding utf8
 } catch {
     $failedCopies = Join-Path $stage 'failed-copies'

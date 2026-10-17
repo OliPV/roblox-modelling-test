@@ -65,6 +65,10 @@ Project `.claude/settings.json` disables automatic memory. No model is forced ac
 Use `/roblox` or another specialist such as `/roblox-npcs` for explicit skill invocation;
 normal automatic selection also works through skill descriptions.
 Edit canonical `.agents/skills` files; regenerate adapters with `scripts/sync-claude-skills.ps1`.
+Vendored skill adaptations are recorded in `docs/roblox-suite-local.patch` with
+separate hashes in `docs/roblox-suite.lock.json`; upstream hashes remain unchanged.
+`update-skills.ps1` reapplies the patch to a staged update and preserves the current
+installation if it needs rebasing.
 Both clients always use the [collaboration skill](../.agents/skills/roblox-collaboration/SKILL.md);
 its [settings](../.agents/skills/roblox-collaboration/references/settings.json) select the mode.
 `context/` contains recorded game facts and observations; it is not an instruction location.

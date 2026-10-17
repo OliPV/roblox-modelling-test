@@ -6,7 +6,7 @@ last_reviewed: 2026-06-17
 
 # roblox-animation
 
-Choose animation tracks for authored rig motion, TweenService for property changes, and IKControl for procedural poses. Validate gameplay outcomes on the server even when a client animation triggers the visual effect.
+Use `Humanoid` with `Animator` for character behavior that fits Roblox's character system, or `AnimationController` with `Animator` for other animated rigs. Choose animation tracks for authored motion, TweenService for property changes, and IKControl for procedural poses. Validate gameplay outcomes on the server even when a client animation triggers the visual effect.
 
 **Key official sources:**
 - https://create.roblox.com/docs/animation (overview)
@@ -63,7 +63,7 @@ For text reveal, use `TextLabel.MaxVisibleGraphemes` and account for localizatio
 - **Client vs Server playback**: For a player's own character, animations played on the client replicate to the server via the Animator (subject to ownership/permissions); for NPCs and other characters, the server is the authority. Cosmetic or prediction-friendly animations can be client-only. Gameplay-affecting timing (damage windows, movement locks) should be validated server-side; do not treat client markers as authoritative proof of a hit.
 - **Preload + cache tracks**: Load once per rig type, reuse the AnimationTrack objects. Use `AnimationClipProvider` for async animation loading when you need previews or streaming behavior.
 - **UI + 3D harmony**: Tween a 3D part or Attachment while a BillboardGui or SurfaceGui on it also tweens (or uses ViewportFrame for embedded 3D previews with parts/meshes/cameras; note that ParticleEmitters/Beams/Trails/Lights do not render inside ViewportFrame).
-- **Testing**: Different devices have different frame rates and input latency. Test easing feels on mobile + desktop. Use MicroProfiler for heavy simultaneous tweens.
+- **Testing**: During iteration, inspect changed motion and spot-check major input changes. Complete target-device/frame-rate coverage before release; use MicroProfiler when simultaneous tweens warrant it.
 
 ## Common mistakes
 
@@ -80,7 +80,7 @@ For text reveal, use `TextLabel.MaxVisibleGraphemes` and account for localizatio
 
 Adapt [AnimationLoader.lua](scripts/AnimationLoader.lua), [TweenHelper.lua](scripts/TweenHelper.lua), or [IKSetup.lua](scripts/IKSetup.lua) when the helper fits the task.
 
-For a changed animation, verify that it plays at the intended priority, fires its markers, and cleans up when the rig is removed. For UI motion, check the target screen sizes and cancellation path. Use [integration-and-events.md](references/integration-and-events.md) when motion drives another system.
+For a changed animation, verify that it plays at the intended priority, fires its markers, and cleans up when the rig is removed. For UI motion, spot-check materially changed layouts and check cancellation. Use [integration-and-events.md](references/integration-and-events.md) when motion drives another system.
 
 <!-- catalog:references:start -->
 ## Reference index

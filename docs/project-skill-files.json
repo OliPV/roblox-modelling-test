@@ -2,6 +2,13 @@
   "files": [
     "roblox-collaboration/SKILL.md",
     "roblox-collaboration/references/settings.json",
-    "roblox-blender/SKILL.md"
+    "roblox-blender/SKILL.md",
+    "roblox-horse/SKILL.md",
+    "roblox-horse/references/animation.md",
+    "roblox-horse/references/model-and-rig.md",
+    "roblox-horse/scripts/client/HorseClient.client.luau",
+    "roblox-horse/scripts/server/HorseServer.server.luau",
+    "roblox-horse/scripts/shared/Horse/HorseConfig.luau",
+    "roblox-horse/scripts/shared/Horse/HorseModel.luau"
   ]
 }

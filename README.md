@@ -1,7 +1,8 @@
 # Agentic Roblox Development
 
 A reusable starting point for Roblox development with ChatGPT/Codex and Claude Code.
-No game code, scenes, assets or previous project's history are included.
+No game code, scenes, assets or previous project's history are included (skills may bundle
+optional example scripts, copied into `src/` only when a game wants them).
 
 The workflow is simple: brainstorm together, bundle ideas, review short bullets, approve,
 build with polish, playtest, and keep concise project context for the next session.
@@ -32,6 +33,9 @@ All response and approval rules live in [roblox-collaboration](.agents/skills/ro
 ## Included
 
 - Root expectations, dedicated collaboration/Blender skills and fresh `context/` memory files.
+- A ready rideable horse ([roblox-horse](.agents/skills/roblox-horse/SKILL.md)): Parts model,
+  runtime rig, riding controls and procedural walk / trot / gallop / drift / jump animation,
+  shipped as skill scripts you copy into `src/` when a game wants it.
 - 16 Roblox specialist skills covering core, networking, NPCs, physics, UI, animation,
   VFX, audio, persistence, purchases, teleporting, Open Cloud, Rojo, MCP and testing.
 - Empty server/client/shared code folders and a narrow Rojo map preserving Studio content.

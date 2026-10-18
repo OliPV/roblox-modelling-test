@@ -1,0 +1,48 @@
+# NVIDIA PyTorch CUDA container for Windows (WSL2 Docker Desktop) or Linux.
+# 25.01+ ships CUDA 12.8, which is required for RTX 50-series (Blackwell, sm_120) GPUs;
+# older bases such as 24.08 fail at the first CUDA kernel on those cards.
+FROM nvcr.io/nvidia/pytorch:25.01-py3
+
+ENV DEBIAN_FRONTEND=noninteractive
+ENV PYTHONUNBUFFERED=1
+ENV MODEL_TOOLS_DIR=/opt/models
+ENV MODEL_WORKSPACE=/workspace
+ENV HF_HOME=/root/.cache/huggingface
+
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    git build-essential libgl1 libglib2.0-0 libgomp1 curl \
+    && rm -rf /var/lib/apt/lists/*
+
+COPY requirements.txt constraints.txt /opt/models/
+
+# Keep the base image's NVIDIA torch build: drop the torch pins from the constraints.
+RUN grep -v '^torch' /opt/models/constraints.txt > /tmp/constraints.txt && \
+    pip install --no-cache-dir --upgrade pip wheel setuptools && \
+    pip install --no-cache-dir -r /opt/models/requirements.txt -c /tmp/constraints.txt && \
+    pip install --no-cache-dir onnxruntime-gpu -c /tmp/constraints.txt
+
+WORKDIR /opt/models
+
+# Pinned upstream commits (verified 2026-10-18); bump deliberately after testing.
+ARG HUNYUAN3D_COMMIT=f8db63096c8282cb27354314d896feba5ba6ff8a
+ARG TRIPOSR_COMMIT=107cefdc244c39106fa830359024f6a2f1c78871
+
+RUN git clone https://github.com/Tencent/Hunyuan3D-2.git /opt/models/Hunyuan3D-2 && \
+    git -C /opt/models/Hunyuan3D-2 checkout ${HUNYUAN3D_COMMIT} && \
+    pip install --no-cache-dir -e /opt/models/Hunyuan3D-2 -c /tmp/constraints.txt
+
+# Hunyuan3D-Paint texture extensions compile cleanly inside this image (gcc + CUDA aligned).
+RUN cd /opt/models/Hunyuan3D-2/hy3dgen/texgen/custom_rasterizer && pip install --no-cache-dir . && \
+    cd /opt/models/Hunyuan3D-2/hy3dgen/texgen/differentiable_renderer && python setup.py install
+
+RUN git clone https://github.com/VAST-AI-Research/TripoSR.git /opt/models/TripoSR && \
+    git -C /opt/models/TripoSR checkout ${TRIPOSR_COMMIT} && \
+    pip install --no-cache-dir "git+https://github.com/tatsy/torchmcubes.git" "imageio[ffmpeg]" moderngl xatlas \
+    -c /tmp/constraints.txt
+# TripoSR's own requirements.txt pins transformers==4.35.0, which conflicts with Hunyuan3D-2;
+# install only the extra packages it needs on top of the shared environment.
+
+COPY server.py /opt/models/server.py
+
+EXPOSE 8085
+CMD ["uvicorn", "server:app", "--host", "0.0.0.0", "--port", "8085"]

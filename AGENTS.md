@@ -34,7 +34,7 @@
 - Use `scripts/dev.ps1` for pinned project tools/checks; see `docs/SETUP.md`.
 - Prefer Blender for substantial custom models, rigs and animation; read
   [roblox-blender](.agents/skills/roblox-blender/SKILL.md) and
-  [roblox-model](.agents/skills/roblox-model/SKILL.md) for local AI image-to-3D pipelines.
+  [roblox-gpu-model](.agents/skills/roblox-gpu-model/SKILL.md) for local GPU AI image-to-3D pipelines.
 - For horses or other rideable four-legged mounts, start from
   [roblox-horse](.agents/skills/roblox-horse/SKILL.md).
 - Use official built-in Studio MCP when connected; inspect actual available capabilities.

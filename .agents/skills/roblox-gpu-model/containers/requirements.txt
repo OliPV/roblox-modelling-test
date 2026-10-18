@@ -1,0 +1,18 @@
+# Local model server dependencies (install torch first, see references/setup.md).
+# Always install together with constraints.txt.
+fastapi
+uvicorn[standard]
+pydantic
+requests
+rembg
+onnxruntime
+pillow
+trimesh
+numpy
+scipy
+huggingface_hub
+transformers
+diffusers
+accelerate
+einops
+omegaconf

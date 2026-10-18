@@ -1,5 +1,18 @@
 # Curated local models for Roblox 3D generation
 
+**Integration status.** `rgm doctor` lists only integrated models that fit the detected GPU.
+
+| Model | Integrated | Min VRAM (NVIDIA) | Apple Silicon |
+| --- | --- | --- | --- |
+| Hunyuan3D-2 shape (`--backend hunyuan3d`) | Yes, verified on RTX 5070 Ti 16 GB | ~8 GB | 24 GB+ unified (upstream claim, unverified here) |
+| TripoSR (`--backend triposr`) | Yes, needs `torchmcubes` build | ~6 GB | 16 GB unified |
+| Hunyuan3D-Paint (`--texture hunyuan`) | Yes, needs `custom_rasterizer` CUDA build | ~16 GB | No (CUDA only) |
+| Roblox Studio `generate_texture` (`--texture studio`) | Yes, cloud; verified | none | any |
+| Hunyuan3D-2mini, TRELLIS, SF3D, UniRig | No, candidates only | see below | see below |
+
+Thresholds live in `MODEL_CATALOG` in [`scripts/run_pipeline.py`](../scripts/run_pipeline.py);
+update them together with this table when a model is added or re-measured.
+
 Why local specialist models instead of LLM mesh code?
 LLMs excel at orchestrating pipelines and writing Blender Python (`bpy`) scripts, but cannot directly output dense, organic, textured 3D meshes. Dedicated vision-to-3D diffusion and transformer models produce high-detail geometry and PBR textures from a single reference image in seconds.
 
@@ -38,10 +51,10 @@ Input images from Midjourney, Flux, ChatGPT or concept art often contain backgro
 
 AI-generated meshes are typically dense triangle soups (`50,000`–`250,000` triangles) with arbitrary orientation and scale.
 
-- **Tool:** **Blender 4.2+ Headless (`bpy`)** via [`scripts/blender_process.py`](../scripts/blender_process.py).
+- **Tool:** **Blender 4.2+ Headless (`bpy`, 5.2 verified)** via [`scripts/blender_process.py`](../scripts/blender_process.py).
 - **Operations performed automatically:**
   1. Merge duplicate vertices (`remove_doubles`), delete loose geometry and recalculate outward normals.
-  2. Planar/quad decimation down to the target Roblox budget (default `6,000` triangles; hard Roblox limit is **`10,000` triangles per MeshPart** for general imports, or **`4,000` triangles** per accessory/avatar part).
+  2. Collapse decimation, repeated until within the target Roblox budget (the build fails with exit code 2 otherwise) (default `6,000` triangles; hard Roblox limit is **`10,000` triangles per MeshPart** for general imports, or **`4,000` triangles** per accessory/avatar part).
   3. Normalize scale so bounding-box height (or longest axis) matches `--height-studs` (`1 Blender meter = 1 Roblox stud` on standard FBX export).
   4. Place pivot at bottom-center `(0, 0, 0)` facing `-Y` in Blender (which exports to `-Z` `LookVector` in Roblox).
 
@@ -65,5 +78,5 @@ Roblox supports two main rig styles:
 | Method | Best for | How it works |
 | --- | --- | --- |
 | **Procedural Blender Action Generator** (Built-in default) | Immediate verified `Idle`, `Walk`, `Attack` or `Float` loops | [`scripts/blender_rig_and_animate.py`](../scripts/blender_rig_and_animate.py) synthesizes clean, loopable keyframe `Action` clips (`Idle`, `Walk`) in the NLA/Action editor and bakes them into the exported `.fbx`. |
-| **Mixamo / `.bvh` Retargeting** | Rich humanoid locomotion, combat and emotes | Pass a local `.fbx` or `.bvh` motion clip to `--retarget-motion` to transfer bone rotations onto the humanoid armature in headless Blender. |
+| **Mixamo / `.bvh` Retargeting** | Rich humanoid locomotion, combat and emotes | Not automated yet: retarget a `.fbx`/`.bvh` clip onto the humanoid armature manually in Blender (see roblox-blender). |
 | **Roblox Runtime Procedural / IK** | Ground-adaptive mounts, vehicles, look-at targets | Skip baked clips and drive `Motor6D` / `Bone` transforms or `IKControl` in Luau (see [`roblox-animation`](../../roblox-animation/SKILL.md) and [`roblox-horse`](../../roblox-horse/SKILL.md)). |

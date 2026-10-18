@@ -1,0 +1,16 @@
+# Known-good versions for the local model server (verified 2026-10-18:
+# Windows 11, RTX 5070 Ti / Blackwell sm_120, Python 3.11, native uv venv).
+# Use with: uv pip install ... -c constraints.txt
+#
+# Hunyuan3D-2 breaks on newer releases:
+#   transformers >= 5   renames DINOv2 attention keys -> checkpoint load fails
+#   diffusers   >= 0.33 imports huggingface_hub APIs missing from the hub version transformers 4.49 needs
+transformers==4.49.0
+diffusers==0.32.2
+tokenizers==0.21.4
+huggingface_hub==0.36.2
+# torch: install from https://download.pytorch.org/whl/cu128 on NVIDIA (sm_120 needs cu128+);
+# the same versions come from PyPI on macOS (Metal / mps).
+torch==2.11.0
+torchvision==0.26.0
+torchaudio==2.11.0

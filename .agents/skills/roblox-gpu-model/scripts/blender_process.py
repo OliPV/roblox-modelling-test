@@ -7,7 +7,7 @@ Performs:
   1. Imports .glb / .obj / .fbx mesh
   2. Joins multi-part static geometry into a single clean mesh (or preserves material slots)
   3. Removes duplicate vertices, deletes loose geometry, recalculates outward normals
-  4. Decimates triangle count below Roblox's 10,000-triangle limit (--target-tris)
+  4. Decimates (repeating if needed) to --target-tris, below Roblox's 10,000-triangle limit
   5. Scales mesh to --height-studs (1 Blender meter = 1 Roblox stud) and places bottom-center pivot at (0,0,0)
   6. Saves editable .blend source and exports Roblox-ready .fbx + manifest.json
 """
@@ -63,6 +63,10 @@ def count_triangles(obj: bpy.types.Object) -> int:
     return tris
 
 
+def dec_ratio_str(ratio: float) -> str:
+    return f"{ratio:.6f}"
+
+
 def main() -> None:
     args = parse_args()
     inp = Path(args.input)
@@ -98,17 +102,24 @@ def main() -> None:
     initial_tris = count_triangles(obj)
     target_tris = min(max(args.target_tris, 200), 9900)
 
-    if initial_tris > target_tris:
-        ratio = float(target_tris) / float(initial_tris)
-        dec = obj.modifiers.new(name="RobloxDecimate", type="DECIMATE")
-        dec.ratio = max(0.02, min(ratio, 1.0))
-        bpy.ops.object.modifier_apply(modifier=dec.name)
-
     # Triangulate for deterministic Roblox triangle budget
     tri_mod = obj.modifiers.new(name="RobloxTriangulate", type="TRIANGULATE")
     bpy.ops.object.modifier_apply(modifier=tri_mod.name)
 
+    # Collapse decimation rarely lands exactly on the ratio (and AI meshes can need ratios
+    # far below 1%), so repeat with a small safety margin until the budget is met.
     final_tris = count_triangles(obj)
+    passes = 0
+    while final_tris > target_tris and passes < 4:
+        ratio = (float(target_tris) / float(final_tris)) * (1.0 if passes == 0 else 0.97)
+        dec = obj.modifiers.new(name="RobloxDecimate", type="DECIMATE")
+        dec.ratio = max(1e-5, min(ratio, 1.0))
+        bpy.ops.object.modifier_apply(modifier=dec.name)
+        tri_mod = obj.modifiers.new(name="RobloxTriangulate", type="TRIANGULATE")
+        bpy.ops.object.modifier_apply(modifier=tri_mod.name)
+        final_tris = count_triangles(obj)
+        passes += 1
+        print(f"[blender_process] decimate pass {passes}: ratio={dec_ratio_str(ratio)} -> {final_tris} tris")
 
     # Compute world-space bounding box and normalize height to target studs
     bbox_corners = [obj.matrix_world @ Vector(corner) for corner in obj.bound_box]
@@ -135,6 +146,8 @@ def main() -> None:
 
     out_blend = Path(args.output_blend)
     out_blend.parent.mkdir(parents=True, exist_ok=True)
+    # No .blend1 backups next to project deliverables.
+    bpy.context.preferences.filepaths.save_version = 0
     bpy.ops.wm.save_as_mainfile(filepath=str(out_blend))
 
     out_fbx = Path(args.output_fbx)
@@ -163,6 +176,9 @@ def main() -> None:
         "static_fbx": str(out_fbx),
         "initial_triangles": initial_tris,
         "final_triangles": final_tris,
+        "target_triangles": target_tris,
+        "decimate_passes": passes,
+        "within_budget": final_tris <= target_tris,
         "roblox_limit_ok": final_tris <= 10000,
         "size_studs_xyz": size_studs,
     }
